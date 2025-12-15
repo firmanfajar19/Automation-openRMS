@@ -30,6 +30,8 @@ export default defineConfig({
     baseURL: process.env.BASE_URL,
     navigationTimeout: 60000,
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
