@@ -1,0 +1,107 @@
+name: Playwright Tests Prod
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    environment: PROD_ENV
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    env:
+      ENV: ${{ secrets.PROD_ENV }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Create .env from secret
+        run: printf '%s' "$ENV" > .env
+
+      - name: Run changed Playwright tests (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx bddgen
+          npx playwright test --only-changed=origin/${{ github.base_ref }}
+
+      - name: Run Playwright tests
+        run: |
+          npx bddgen
+          npx playwright test
+
+      - name: Install Allure CLI globally
+        run: npm install -g allure-commandline
+
+      - name: Generate Allure report
+        run: allure generate allure-results --clean -o allure-report
+
+      - name: Upload Allure report artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --dir=./allure-report --prod --site="$SITE_ID"
+
+      - name: Send Email with Allure Report Link
+        if: github.event_name == 'push'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_HOST }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "Playwright Test Execution Result - ${{ github.repository }}"
+          to: ${{ secrets.EMAIL_TO }}
+          from: "QA Automation Team <${{ secrets.SMTP_USER }}>"
+          body: |
+              Hello Team,
+
+              Playwright automated test run has finished.
+              
+              ==============================
+              🔹 TEST EXECUTION DETAILS
+              ==============================
+
+              • Status: ${{ job.status }}
+              • Workflow: ${{ github.workflow }}
+              • Run Number: ${{ github.run_number }}
+              • Run ID: ${{ github.run_id }}
+
+              ==============================
+              🔹 TEST SUMMARY
+              ==============================
+
+              Full Report: 
+
+              Repository: https://github.com/${{ github.repository }}
+              Commit: ${{ github.sha }}
+              Triggered by: ${{ github.actor }}
+              
+              Regards,
+              QA Automation Team
+            
+          
