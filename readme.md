@@ -1,7 +1,7 @@
 # Quality Assurance Test - Infokes
 ## Name: Firman Fajar Kurniawan
 ## Project Overview
-This project contains automation tests for OpenRMS using Playwright with a Gherkin style (BDD) approach. It is designed to ensure the quality and reliability of the OpenRMS application through automated scenarios. This project is using GitHub Actions for CI/CD pipeline. The test results are deployed to Netlify and sent via email notifications.
+This project contains automation tests for OpenRMS using Playwright with a Gherkin style (BDD) approach and Page Object Model (POM). It is designed to ensure the quality and reliability of the OpenRMS application through automated scenarios. This project is using GitHub Actions for CI/CD pipeline. The test results are deployed to Netlify and sent via email notifications.
 
 ## Technologies Used
 *   **JavaScript**: The core programming language used for the tests.
@@ -17,6 +17,7 @@ Automation-openRMS/
 ├── tests/
 │   └── web/
 │       ├── features/       # Gherkin feature files (*.feature)
+│       ├── pages/          # Page objects for BDD (*.js)   
 │       └── step_definitions/ # Step definitions for BDD (*.js)
 ├── .env                    # Environment variables
 ├── allure-report/          # Generated Allure report (artifacts)
