@@ -95,7 +95,7 @@ jobs:
               🔹 TEST SUMMARY
               ==============================
 
-              Full Report: 
+              Full Report: https://automation-openrms.netlify.app 
 
               Repository: https://github.com/${{ github.repository }}
               Commit: ${{ github.sha }}
