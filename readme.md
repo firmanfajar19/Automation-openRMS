@@ -134,3 +134,7 @@ To enable the CI/CD pipeline, the following secrets must be configured in your G
 | `SMTP_USER` | SMTP username / sender email. |
 | `SMTP_PASS` | SMTP password / app password. |
 | `EMAIL_TO` | Recipient email address(es) for notifications. |
+
+## Exmple Video Run Test and Failed Test
+* [Video Run Test](https://docs.google.com/videos/d/1Jvdyz2C7chzV_kvj-TQfs5xduHv78aoUb7RmeWN74Xk/edit?usp=sharing)
+* [Video Failed Test](https://docs.google.com/videos/d/1F5SFNBhvUj-mXAdFAE3Si7akRFvpWwKfNn6kjRnla-I/edit?usp=sharing)
