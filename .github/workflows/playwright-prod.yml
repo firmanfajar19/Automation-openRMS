@@ -56,52 +56,63 @@ jobs:
           name: allure-report
           path: allure-report/
           retention-days: 30
-
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
-      - name: Deploy to Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --dir=./allure-report --prod --site="$SITE_ID"
-
-      - name: Send Email with Allure Report Link
+      # ----------------------------------------
+      # Deploy Allure Report to GitHub Pages
+      # ----------------------------------------
+      - name: Deploy Allure Report to GitHub Pages
         if: github.event_name == 'push'
-        uses: dawidd6/action-send-mail@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          server_address: ${{ secrets.SMTP_HOST }}
-          server_port: ${{ secrets.SMTP_PORT }}
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASS }}
-          subject: "Playwright Test Execution Result - ${{ github.repository }}"
-          to: ${{ secrets.EMAIL_TO }}
-          from: "QA Automation Team <${{ secrets.SMTP_USER }}>"
-          body: |
-              Hello Team,
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
+          force_orphan: true
 
-              Playwright automated test run has finished.
+      # - name: Install Netlify CLI
+      #   run: npm install -g netlify-cli
+
+      # - name: Deploy to Netlify
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   run: netlify deploy --dir=./allure-report --prod --site="$SITE_ID"
+
+      # - name: Send Email with Allure Report Link
+      #   if: github.event_name == 'push'
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: ${{ secrets.SMTP_HOST }}
+      #     server_port: ${{ secrets.SMTP_PORT }}
+      #     username: ${{ secrets.SMTP_USER }}
+      #     password: ${{ secrets.SMTP_PASS }}
+      #     subject: "Playwright Test Execution Result - ${{ github.repository }}"
+      #     to: ${{ secrets.EMAIL_TO }}
+      #     from: "QA Automation Team <${{ secrets.SMTP_USER }}>"
+      #     body: |
+      #         Hello Team,
+
+      #         Playwright automated test run has finished.
               
-              ==============================
-              🔹 TEST EXECUTION DETAILS
-              ==============================
+      #         ==============================
+      #         🔹 TEST EXECUTION DETAILS
+      #         ==============================
 
-              • Status: ${{ job.status }}
-              • Workflow: ${{ github.workflow }}
-              • Run Number: ${{ github.run_number }}
-              • Run ID: ${{ github.run_id }}
+      #         • Status: ${{ job.status }}
+      #         • Workflow: ${{ github.workflow }}
+      #         • Run Number: ${{ github.run_number }}
+      #         • Run ID: ${{ github.run_id }}
 
-              ==============================
-              🔹 TEST SUMMARY
-              ==============================
+      #         ==============================
+      #         🔹 TEST SUMMARY
+      #         ==============================
 
-              Full Report: https://automation-openrms.netlify.app 
+      #         Full Report: https://automation-openrms.netlify.app 
 
-              Repository: https://github.com/${{ github.repository }}
-              Commit: ${{ github.sha }}
-              Triggered by: ${{ github.actor }}
+      #         Repository: https://github.com/${{ github.repository }}
+      #         Commit: ${{ github.sha }}
+      #         Triggered by: ${{ github.actor }}
               
-              Regards,
-              QA Automation Team
+      #         Regards,
+      #         QA Automation Team
             
           
