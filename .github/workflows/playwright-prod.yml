@@ -136,3 +136,18 @@ jobs:
           publish_dir: allure-report
           publish_branch: gh-pages
           force_orphan: true
+
+      # ----------------------------------------
+      # Send Email with Allure Report Link
+      # ----------------------------------------
+      - name: Allure Summary & Email
+        if: github.event_name == 'push'
+        uses: ./.github/actions/allure-summary
+        with:
+          smtp_host: ${{ secrets.SMTP_HOST }}
+          smtp_port: ${{ secrets.SMTP_PORT }}
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          email_to: ${{ secrets.EMAIL_TO }}
+          repo_owner: ${{ github.repository_owner }}
+          repo_name: ${{ github.event.repository.name }}

@@ -1,0 +1,105 @@
+name: "Extract Allure Summary & Send Email"
+description: "Parse Allure summary, calculate metrics, zip report, and send email"
+
+inputs:
+  smtp_host:
+    required: true
+  smtp_port:
+    required: true
+  smtp_user:
+    required: true
+  smtp_pass:
+    required: true
+  email_to:
+    required: true
+  repo_owner:
+    required: true
+  repo_name:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    # -------------------------------
+    # Extract Allure Summary
+    # -------------------------------
+    - name: Extract Allure summary
+      shell: bash
+      run: |
+        node <<'EOF'
+        const fs = require('fs');
+
+        const summaryPath = 'allure-report/widgets/summary.json';
+        if (!fs.existsSync(summaryPath)) {
+          console.log('Allure summary not found');
+          process.exit(0);
+        }
+
+        const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+        const stat = summary.statistic;
+        const durationMs = summary.time.duration || 0;
+
+        const totalSeconds = Math.floor(durationMs / 1000);
+        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const s = String(totalSeconds % 60).padStart(2, '0');
+
+        const duration = `${h}:${m}:${s}`;
+        const passRate = stat.total > 0
+          ? ((stat.passed / stat.total) * 100).toFixed(2)
+          : '0.00';
+
+        const env = process.env.GITHUB_ENV;
+        fs.appendFileSync(env, `TOTAL_TESTS=${stat.total}\n`);
+        fs.appendFileSync(env, `PASSED_TESTS=${stat.passed}\n`);
+        fs.appendFileSync(env, `FAILED_TESTS=${stat.failed}\n`);
+        fs.appendFileSync(env, `BROKEN_TESTS=${stat.broken}\n`);
+        fs.appendFileSync(env, `SKIPPED_TESTS=${stat.skipped}\n`);
+        fs.appendFileSync(env, `EXECUTION_DURATION=${duration}\n`);
+        fs.appendFileSync(env, `PASS_RATE=${passRate}\n`);
+        EOF
+
+    # -------------------------------
+    # Send Email
+    # -------------------------------
+    - name: Send Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ inputs.smtp_host }}
+        server_port: ${{ inputs.smtp_port }}
+        username: ${{ inputs.smtp_user }}
+        password: ${{ inputs.smtp_pass }}
+        to: ${{ inputs.email_to }}
+        from: "QA Team <${{ inputs.smtp_user }}>"
+        subject: "Playwright Test Result - ${{ inputs.repo_name }}"
+        attachments: allure-report.zip
+        body: |
+          Hello Team,
+
+          ==============================
+          🔹 TEST EXECUTION SUMMARY
+          ==============================
+
+          • Total Tests        : ${{ env.TOTAL_TESTS }}
+          • Passed             : ✅ ${{ env.PASSED_TESTS }}
+          • Failed             : ❌ ${{ env.FAILED_TESTS }}
+          • Broken             : ⚠️ ${{ env.BROKEN_TESTS }}
+          • Skipped            : ⏭️ ${{ env.SKIPPED_TESTS }}
+
+          ==============================
+          🔹 QUALITY METRICS
+          ==============================
+
+          • Pass Rate          : 📈 ${{ env.PASS_RATE }}%
+          • Execution Duration : ⏱️ ${{ env.EXECUTION_DURATION }}
+
+          ==============================
+          🔹 FULL REPORT
+          ==============================
+
+          https://${{ inputs.repo_owner }}.github.io/${{ inputs.repo_name }}
+          
+          Commit: ${{ github.sha }}
+
+          Regards,
+          QA Team
