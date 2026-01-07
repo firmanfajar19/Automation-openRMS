@@ -62,6 +62,7 @@ jobs:
           mkdir -p reporter/allure-results/history
           cp -r gh-pages/history/* reporter/allure-results/history/ || true
       - name: Create Allure Executor Info
+        if: github.event_name == 'push'
         run: |
           mkdir -p reporter/allure-results
           envsubst < reporter/allure-executor.json > reporter/allure-results/executor.json
