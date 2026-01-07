@@ -82,48 +82,63 @@ runs:
               <h3>🔹 Test Execution Summary</h3>
               <table border="1" cellpadding="8" cellspacing="0" width="400"
                style="border-collapse: collapse;">
-            <tr style="background:#f2f2f2">
-              <th align="left">Metric</th>
-              <th align="center">Value</th>
-            </tr>
-            <tr><td>Total Tests</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
-            <tr><td>Passed</td><td align="center">✅ ${{ env.PASSED_TESTS }}</td></tr>
-            <tr><td>Failed</td><td align="center">❌ ${{ env.FAILED_TESTS }}</td></tr>
-            <tr><td>Broken</td><td align="center">⚠️ ${{ env.BROKEN_TESTS }}</td></tr>
-            <tr><td>Skipped</td><td align="center">⏭️ ${{ env.SKIPPED_TESTS }}</td></tr>
-            </table>
+                <tr style="background:#f2f2f2">
+                  <th align="left">Metric</th>
+                  <th align="center">Value</th>
+                </tr>
+                <tr><td>📋 Total Tests</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
+                <tr><td>✅ Passed</td><td align="center"> ${{ env.PASSED_TESTS }}</td></tr>
+                <tr><td>❌ Failed</td><td align="center"> ${{ env.FAILED_TESTS }}</td></tr>
+                <tr><td>⚠️ Broken</td><td align="center"> ${{ env.BROKEN_TESTS }}</td></tr>
+                <tr><td>⏭️ Skipped</td><td align="center"> ${{ env.SKIPPED_TESTS }}</td></tr>
+              </table>
 
-          <h3>🔹 Quality Metrics</h3>
-          <table border="1" cellpadding="8" cellspacing="0" width="400"
+              <h3>🔹 Quality Metrics</h3>
+              <table border="1" cellpadding="8" cellspacing="0" width="400"
                style="border-collapse: collapse;">
-            <tr style="background:#f2f2f2">
-              <th align="left">Metric</th>
-              <th align="center">Value</th>
-            </tr>
-            <tr>
-              <td>Pass Rate</td>
-              <td align="center">📈 ${{ env.PASS_RATE }}%</td>
-            </tr>
-            <tr>
-              <td>Execution Duration</td>
-              <td align="center">⏱️ ${{ env.EXECUTION_DURATION }}</td>
-            </tr>
-          </table>
+                <tr style="background:#f2f2f2">
+                  <th align="left">Metric</th>
+                  <th align="center">Value</th>
+                </tr>
+                <tr>
+                  <td>📈 Pass Rate</td>
+                  <td align="center"> ${{ env.PASS_RATE }}%</td>
+                </tr>
+                <tr>
+                  <td>⏱️ Execution Duration</td>
+                  <td align="center"> ${{ env.EXECUTION_DURATION }}</td>
+                </tr>
+              </table>
 
-          <h3>🔹 Full Report</h3>
-          <ul>
-            <li>
-              <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">
-                Workflow Run
-              </a>
-            </li>
-            <li>
-              <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}">
-                Regression Test Report
-              </a>
-            </li>
-          </ul>
+              <table border="1" cellpadding="8" cellspacing="0" width="500"
+               style="border-collapse: collapse;">
+                <tr style="background:#f2f2f2">
+                  <th align="left">Report Type</th>
+                  <th align="left">Link</th>
+                </tr>
 
-          <p>Regards,<br/>QA Team</p>
-          </body>
+                <tr>
+                  <td>GitHub Workflow Run</td>
+                  <td>
+                    <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">
+                      View Execution Details
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Regression Test Report</td>
+                  <td>
+                    <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}">
+                      View Allure Report
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="font-weight:600;">
+                Regards,<br/>
+                QA Team
+              </p>
+            </body>
           </html>

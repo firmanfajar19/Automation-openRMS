@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  e2e:
+  regression:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     environment: PROD_ENV
