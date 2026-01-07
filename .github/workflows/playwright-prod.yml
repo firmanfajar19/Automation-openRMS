@@ -62,7 +62,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           npx bddgen
-          npx playwright test --only-changed=origin/${{ github.base_ref }}
+          npx playwright test --only-changed=origin/${{ github.base_ref }} || \
+          npx playwright test
 
       # =====================================================
       # Run Full Tests (Push to main)

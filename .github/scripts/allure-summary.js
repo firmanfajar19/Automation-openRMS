@@ -10,7 +10,7 @@ const path = require("path");
 // Config
 // --------------------------------------------------
 const SUMMARY_PATH = "allure-report/widgets/summary.json";
-const COMMENT_MARKER = "🧪 Playwright Test Summary";
+const COMMENT_MARKER = "🧪 Test Summary";
 
 // --------------------------------------------------
 // Validate summary.json
@@ -33,9 +33,78 @@ const skipped = stat.skipped || 0;
 const unknown = stat.unknown || 0;
 
 const total = passed + failed + broken + skipped + unknown;
+
+// --------------------------------------------------
+// Pass rate
+// --------------------------------------------------
 const passRate = total
     ? ((passed / total) * 100).toFixed(2)
     : "0.00";
+
+// --------------------------------------------------
+// Duration (ms → human readable)
+// --------------------------------------------------
+const durationMs = time.duration || 0;
+
+function formatDuration(ms) {
+    const sec = Math.floor(ms / 1000);
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}m ${s}s`;
+}
+
+// --------------------------------------------------
+// Donut color logic
+// --------------------------------------------------
+let donutColor = "#22c55e"; // green
+
+if (failed > 0) {
+    donutColor = "#ef4444"; // red
+} else if (broken > 0 || skipped > 0) {
+    donutColor = "#f59e0b"; // yellow (optional)
+}
+
+// --------------------------------------------------
+// Donut SVG
+// --------------------------------------------------
+const radius = 40;
+const circumference = 2 * Math.PI * radius;
+const offset = circumference - (passRate / 100) * circumference;
+
+const donutSvg = `
+<svg width="120" height="120" viewBox="0 0 120 120">
+  <circle
+    cx="60"
+    cy="60"
+    r="${radius}"
+    stroke="#e5e7eb"
+    stroke-width="12"
+    fill="none"
+  />
+  <circle
+    cx="60"
+    cy="60"
+    r="${radius}"
+    stroke="${donutColor}"
+    stroke-width="12"
+    fill="none"
+    stroke-dasharray="${circumference}"
+    stroke-dashoffset="${offset}"
+    transform="rotate(-90 60 60)"
+  />
+  <text
+    x="50%"
+    y="50%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    font-size="16"
+    font-weight="bold"
+    fill="#111827"
+  >
+    ${passRate}%
+  </text>
+</svg>
+`.trim();
 
 // --------------------------------------------------
 // Build markdown body
@@ -43,7 +112,9 @@ const passRate = total
 const reportUrl = process.env.ALLURE_REPORT_URL || "#";
 
 const body = `
-### 🧪 Playwright Test Summary
+### 🧪 Test Summary
+
+${donutSvg}
 
 | Status | Count |
 |-------|------:|
@@ -54,8 +125,7 @@ const body = `
 
 **📊 Total Tests:** ${total}  
 **📈 Pass Rate:** ${passRate}%
-
-🔗 **[View Full Allure Report](${reportUrl})**
+**⏱ Duration:** ${formatDuration(durationMs)}
 
 <sub>Generated automatically by GitHub Actions</sub>
 `.trim();
@@ -64,5 +134,4 @@ const body = `
 // Write to file (used by github-script)
 // --------------------------------------------------
 fs.writeFileSync("pr-comment.md", body);
-
 console.log("✅ PR summary generated successfully");
