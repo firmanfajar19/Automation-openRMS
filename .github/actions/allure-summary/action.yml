@@ -72,32 +72,58 @@ runs:
         to: ${{ inputs.email_to }}
         from: "QA Team <${{ inputs.smtp_user }}>"
         subject: "Regression Test Result"
-        attachments: allure-report.zip
-        body: |
-          Hello Team,
+        html_body: |
+          <html>
+            <body style="font-family: Arial, sans-serif; color:#333">
+              <p>Hello Team,</p>
 
-          This is an automated email to inform you about the regression test results.
+              <p>This is an automated email to inform you about the regression test results.</p>
 
-          🔹 TEST EXECUTION SUMMARY
+              <h3>🔹 Test Execution Summary</h3>
+              <table border="1" cellpadding="8" cellspacing="0" width="400"
+               style="border-collapse: collapse;">
+            <tr style="background:#f2f2f2">
+              <th align="left">Metric</th>
+              <th align="center">Value</th>
+            </tr>
+            <tr><td>Total Tests</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
+            <tr><td>Passed</td><td align="center">✅ ${{ env.PASSED_TESTS }}</td></tr>
+            <tr><td>Failed</td><td align="center">❌ ${{ env.FAILED_TESTS }}</td></tr>
+            <tr><td>Broken</td><td align="center">⚠️ ${{ env.BROKEN_TESTS }}</td></tr>
+            <tr><td>Skipped</td><td align="center">⏭️ ${{ env.SKIPPED_TESTS }}</td></tr>
+            </table>
 
-          • Total Tests                 : ${{ env.TOTAL_TESTS }}
-          • Passed                      : ✅ ${{ env.PASSED_TESTS }}
-          • Failed                      : ❌ ${{ env.FAILED_TESTS }}
-          • Broken                      : ⚠️ ${{ env.BROKEN_TESTS }}
-          • Skipped                     : ⏭️ ${{ env.SKIPPED_TESTS }}
+          <h3>🔹 Quality Metrics</h3>
+          <table border="1" cellpadding="8" cellspacing="0" width="400"
+               style="border-collapse: collapse;">
+            <tr style="background:#f2f2f2">
+              <th align="left">Metric</th>
+              <th align="center">Value</th>
+            </tr>
+            <tr>
+              <td>Pass Rate</td>
+              <td align="center">📈 ${{ env.PASS_RATE }}%</td>
+            </tr>
+            <tr>
+              <td>Execution Duration</td>
+              <td align="center">⏱️ ${{ env.EXECUTION_DURATION }}</td>
+            </tr>
+          </table>
 
-          🔹 QUALITY METRICS
+          <h3>🔹 Full Report</h3>
+          <ul>
+            <li>
+              <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">
+                Workflow Run
+              </a>
+            </li>
+            <li>
+              <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}">
+                Regression Test Report
+              </a>
+            </li>
+          </ul>
 
-          • Pass Rate                   : 📈 ${{ env.PASS_RATE }}%
-          • Execution Duration          : ⏱️ ${{ env.EXECUTION_DURATION }}
-
-          🔹 FULL REPORT
-
-          🔗 Workflow Run:
-          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-          🔗 Allure Report:
-          https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-
-          Regards,
-          QA Team
+          <p>Regards,<br/>QA Team</p>
+          </body>
+          </html>
