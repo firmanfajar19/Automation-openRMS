@@ -34,10 +34,6 @@ on:
       EMAIL_TO:
         required: false
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   regression:
     name: Regression Tests (${{ inputs.env_name }})
