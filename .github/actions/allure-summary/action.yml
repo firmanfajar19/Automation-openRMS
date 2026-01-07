@@ -71,31 +71,27 @@ runs:
         password: ${{ inputs.smtp_pass }}
         to: ${{ inputs.email_to }}
         from: "QA Team <${{ inputs.smtp_user }}>"
-        subject: "Playwright Test Result - ${{ inputs.repo_name }}"
+        subject: "Regression Test Result"
         attachments: allure-report.zip
         body: |
           Hello Team,
 
-          ==============================
+          This is an automated email to inform you about the regression test results.
+
           🔹 TEST EXECUTION SUMMARY
-          ==============================
 
-          • Total Tests        : ${{ env.TOTAL_TESTS }}
-          • Passed             : ✅ ${{ env.PASSED_TESTS }}
-          • Failed             : ❌ ${{ env.FAILED_TESTS }}
-          • Broken             : ⚠️ ${{ env.BROKEN_TESTS }}
-          • Skipped            : ⏭️ ${{ env.SKIPPED_TESTS }}
+          • Total Tests                 : ${{ env.TOTAL_TESTS }}
+          • Passed                      : ✅ ${{ env.PASSED_TESTS }}
+          • Failed                      : ❌ ${{ env.FAILED_TESTS }}
+          • Broken                      : ⚠️ ${{ env.BROKEN_TESTS }}
+          • Skipped                     : ⏭️ ${{ env.SKIPPED_TESTS }}
 
-          ==============================
           🔹 QUALITY METRICS
-          ==============================
 
-          • Pass Rate          : 📈 ${{ env.PASS_RATE }}%
-          • Execution Duration : ⏱️ ${{ env.EXECUTION_DURATION }}
+          • Pass Rate                   : 📈 ${{ env.PASS_RATE }}%
+          • Execution Duration          : ⏱️ ${{ env.EXECUTION_DURATION }}
 
-          ==============================
           🔹 FULL REPORT
-          ==============================
 
           🔗 Workflow Run:
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}

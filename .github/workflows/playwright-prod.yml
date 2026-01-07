@@ -9,7 +9,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  checks: write
 
 jobs:
   e2e:
@@ -62,8 +61,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           npx bddgen
-          npx playwright test --only-changed=origin/${{ github.base_ref }} || \
-          npx playwright test
+          npx playwright test --only-changed=origin/${{ github.base_ref }}
 
       # =====================================================
       # Run Full Tests (Push to main)
@@ -76,7 +74,7 @@ jobs:
       # Install Allure CLI
       # =====================================================
       - name: Install Allure CLI
-        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        if: github.event_name == 'push'
         run: npm install -g allure-commandline
 
       # =====================================================
@@ -100,29 +98,8 @@ jobs:
       # Generate Allure Report
       # =====================================================
       - name: Generate Allure report
-        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        if: github.event_name == 'push'
         run: npm run allure
-
-      # =====================================================
-      # Generate PR Allure Summary
-      # =====================================================
-      - name: Generate PR Allure summary
-        if: github.event_name == 'pull_request'
-        run: |
-          export ALLURE_REPORT_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
-          node .github/scripts/allure-summary.js
-
-      # =====================================================
-      # Create / Update PR Comment (ANTI-SPAM)
-      # =====================================================
-      - name: Create or update PR comment
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const comment = require('./.github/scripts/pr-comment.js');
-            await comment({ github, context });
 
       # =====================================================
       # Deploy Allure Report to GitHub Pages
