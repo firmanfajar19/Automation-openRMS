@@ -10,15 +10,26 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  
+ 
 jobs:
-  run-prod:
+  pr-check:
+    if: github.event_name == 'pull_request'
     uses: ./.github/workflows/playwright-config.yml
     with:
       env_name: PRODUCTION
       environment: PROD_ENV
       secret_env: PROD_ENV
+      run_changed_only: true
+      deploy_report: false
+      send_email: false
+
+  prod-regression:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/playwright-config.yml
+    with:
+      env_name: PRODUCTION
+      environment: PROD_ENV
+      secret_env: PROD_ENV
+      run_changed_only: false
       deploy_report: true
       send_email: true
-      run_changed_only: ${{ github.event_name == 'pull_request' }}
-    secrets: inherit
