@@ -101,7 +101,7 @@ jobs:
       # Generate Allure report
       # ----------------------------------------
       - name: Generate Allure report
-        run: npx allure run -- npm run test
+        run: npm run allure
 
       # ----------------------------------------
       # Save history back to gh-pages
@@ -117,10 +117,7 @@ jobs:
       - name: Run Allure Action
         uses: allure-framework/allure-action@v0
         with:
-          # Path to the generated report directory
-          # By default, it's set to `./allure-report`
           report-directory: "./allure-report"
-          # GitHub Token that's used for posting the comments in Pull Requests
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # ----------------------------------------
