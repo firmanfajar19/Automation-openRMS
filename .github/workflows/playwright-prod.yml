@@ -102,11 +102,12 @@ jobs:
           mkdir -p allure-results
           cat <<EOF > allure-results/executor.json
           {
+            "reportName": "Regression Tests ${{github.run_number}}",  
+            "buildOrder": "${{ github.run_number }}",
+            "reportUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "name": "GitHub Actions",
             "type": "github",
-            "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "buildOrder": "${{ github.run_number }}",
-            "buildName": "Regression Tests",
+            "buildName": "Regression Tests ${{github.run_number}}",
             "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           EOF
