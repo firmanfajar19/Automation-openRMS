@@ -19,9 +19,31 @@ jobs:
       - id: set-matrix
         run: |
           if [[ "${{ github.ref_name }}" == "staging" ]]; then
-            echo 'matrix={"include":[{"env_name":"STAGING","branch":"staging","environment":"STAGING_ENV","secret_env":"STAGING_ENV","deploy_report":false,"send_email":false}]}' >> $GITHUB_OUTPUT
+            cat <<EOF >> "$GITHUB_OUTPUT"
+            matrix={"include":[
+              {
+                "env_name": "STAGING",
+                "branch": "staging",
+                "environment": "STAGING_ENV",
+                "secret_env": "STAGING_ENV",
+                "deploy_report": false,
+                "send_email": false
+              }
+            ]}
+            EOF
           else
-            echo 'matrix={"include":[{"env_name":"PRODUCTION","branch":"main","environment":"PROD_ENV","secret_env":"PROD_ENV","deploy_report":true,"send_email":true}]}' >> $GITHUB_OUTPUT
+            cat <<EOF >> "$GITHUB_OUTPUT"
+            matrix={"include":[
+              {
+                "env_name": "PRODUCTION",
+                "branch": "main",
+                "environment": "PROD_ENV",
+                "secret_env": "PROD_ENV",
+                "deploy_report": true,
+                "send_email": true
+              }
+            ]}
+            EOF
           fi
 
   regression:
@@ -39,52 +61,31 @@ jobs:
       ENV: ${{ secrets[matrix.secret_env] }}
 
     steps:
-      # =====================================================
-      # Checkout Repository
-      # =====================================================
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      # =====================================================
-      # Setup Node.js
-      # =====================================================
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
 
-      # =====================================================
-      # Install Dependencies
-      # =====================================================
       - name: Install dependencies
         run: npm ci
 
-      # =====================================================
-      # Cache Playwright Browsers
-      # =====================================================
       - name: Cache Playwright Browsers
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      # =====================================================
-      # Install Playwright Browsers
-      # =====================================================
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # =====================================================
-      # Create .env from GitHub Secret
-      # =====================================================
       - name: Create .env file
         run: printf '%s' "$ENV" > .env
 
-      # =====================================================
-      # Run Tests
-      # =====================================================
       - name: Run changed tests (PR → Production only)
         if: github.event_name == 'pull_request' && matrix.env_name == 'PRODUCTION'
         run: |
@@ -93,22 +94,13 @@ jobs:
 
       - name: Run full tests
         if: github.event_name == 'push'
-        run: |
-          npx bddgen
-          npm run test
+        run: npm run test
 
-      # =====================================================
-      # Allure CLI
-      # =====================================================
       - name: Install Allure CLI
-        if: github.event_name == 'push'
         run: npm install -g allure-commandline@2.36.0
 
-      # =====================================================
-      # Restore Allure History (Prod only)
-      # =====================================================
       - name: Restore Allure history
-        if: matrix.deploy_report
+        if: matrix.deploy_report || github.event_name == 'push'
         uses: actions/checkout@v5
         with:
           ref: gh-pages
@@ -116,14 +108,11 @@ jobs:
         continue-on-error: true
 
       - name: Copy history
-        if: matrix.deploy_report
+        if: matrix.deploy_report || github.event_name == 'push'
         run: |
           mkdir -p allure-results/history
           cp -r gh-pages/history/* allure-results/history/ || true
 
-      # =====================================================
-      # Allure Executor Info
-      # =====================================================
       - name: Create Allure Executor Info
         if: github.event_name == 'push'
         run: |
@@ -141,18 +130,11 @@ jobs:
           }
           EOF
 
-      # =====================================================
-      # Generate Allure Report
-      # =====================================================
       - name: Generate Allure report
-        if: github.event_name == 'push'
         run: npm run allure
 
-      # =====================================================
-      # Deploy Allure (Prod only)
-      # =====================================================
       - name: Deploy Allure to GitHub Pages
-        if: matrix.deploy_report
+        if: matrix.deploy_report || github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -160,9 +142,6 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
 
-      # =====================================================
-      # Upload Artifact
-      # =====================================================
       - name: Upload Allure report artifact
         if: always()
         uses: actions/upload-artifact@v5
@@ -171,11 +150,8 @@ jobs:
           path: allure-report
           retention-days: 30
 
-      # =====================================================
-      # Send Email Summary (Prod only)
-      # =====================================================
       - name: Send Allure Summary Email
-        if: matrix.send_email && github.event_name == 'push'
+        if: matrix.send_email && github.event_name == 'push' && success()
         uses: ./.github/actions/allure-summary
         with:
           smtp_host: ${{ secrets.SMTP_HOST }}
