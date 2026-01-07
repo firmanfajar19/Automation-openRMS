@@ -11,7 +11,21 @@ permissions:
   pull-requests: write
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          if [[ "${{ github.ref_name }}" == "staging" ]]; then
+            echo 'matrix={"include":[{"env_name":"STAGING","branch":"staging","environment":"STAGING_ENV","secret_env":"STAGING_ENV","deploy_report":false,"send_email":false}]}' >> $GITHUB_OUTPUT
+          else
+            echo 'matrix={"include":[{"env_name":"PRODUCTION","branch":"main","environment":"PROD_ENV","secret_env":"PROD_ENV","deploy_report":true,"send_email":true}]}' >> $GITHUB_OUTPUT
+          fi
+
   regression:
+    needs: setup
     name: Regression Tests (${{ matrix.env_name }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -19,22 +33,8 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - env_name: STAGING
-            branch: staging
-            environment: STAGING_ENV
-            secret_env: STAGING_ENV
-            deploy_report: false
-            send_email: false
-
-          - env_name: PRODUCTION
-            branch: main
-            environment: PROD_ENV
-            secret_env: PROD_ENV
-            deploy_report: true
-            send_email: true
-
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      
     env:
       ENV: ${{ secrets[matrix.secret_env] }}
 
