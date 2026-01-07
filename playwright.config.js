@@ -16,6 +16,7 @@ export default defineConfig({
     [
       "allure-playwright",
       {
+        resultsDir: "reporter/allure-results",
         environmentInfo: {
           "Platform": os.platform(),
           "Release": os.release(),

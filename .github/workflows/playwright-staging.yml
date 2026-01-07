@@ -1,20 +1,43 @@
-name: Playwright Regression - Staging
-
+name: Playwright Tests - Staging
 on:
   push:
-    branches: [ staging ]
-    
-permissions:
-  contents: write
-  pull-requests: write
-
+    branches: staging
+  
 jobs:
-  run-staging:
-    uses: ./.github/workflows/playwright-config.yml
-    with:
-      env_name: STAGING
-      environment: STAGING_ENV
-      secret_env: STAGING_ENV
-      deploy_report: false
-      send_email: false
-    secrets: inherit
+  test:
+    environment: STAGING_ENV
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      ENV: ${{ secrets.STAGING_ENV }}
+    steps:
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v6
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Cache Playwright Browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Create .env from secret
+      run: |
+        # write secret contents to .env without printing it to logs
+        printf '%s' "$ENV" > .env
+    - name: Run Playwright tests 
+      run: npm run test
+    - name: Install Allure CLI globally
+      run: npm install -g allure-commandline
+    - name: Generate Allure report
+      run: npm run allure
+    - name: Upload Allure report artifact
+      if: always()
+      uses: actions/upload-artifact@v5
+      with:
+        name: Test-Report-Staging
+        path: reporter/allure-report/
+        retention-days: 30

@@ -12,3 +12,4 @@ node_modules/
 allure-results
 allure-report
 .allure
+reporter/allure-results
