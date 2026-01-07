@@ -103,6 +103,27 @@ jobs:
         run: npm run allure
 
       # =====================================================
+      # Generate PR Allure Summary
+      # =====================================================
+      - name: Generate PR Allure summary
+        if: github.event_name == 'pull_request'
+        run: |
+          export ALLURE_REPORT_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          node .github/scripts/allure-summary.js
+
+      # =====================================================
+      # Create / Update PR Comment (ANTI-SPAM)
+      # =====================================================
+      - name: Create or update PR comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const comment = require('./.github/scripts/pr-comment.js');
+            await comment({ github, context });
+            
+      # =====================================================
       # Deploy Allure Report to GitHub Pages
       # =====================================================
       - name: Deploy Allure to GitHub Pages
