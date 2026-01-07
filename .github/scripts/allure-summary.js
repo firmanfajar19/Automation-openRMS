@@ -26,6 +26,17 @@ const unknown = stat.unknown || 0;
 const total = passed + failed + broken + skipped + unknown;
 
 // --------------------------------------------------
+// No tests executed guard
+// --------------------------------------------------
+if (total === 0) {
+    fs.writeFileSync(
+        "pr-comment.md",
+        "### 🧪 Playwright Test Summary\n\n⚠️ No tests were executed in this PR."
+    );
+    process.exit(0);
+}
+
+// --------------------------------------------------
 // Pass rate
 // --------------------------------------------------
 const passRate = total
