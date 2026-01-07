@@ -26,7 +26,7 @@ runs:
         node <<'EOF'
         const fs = require('fs');
 
-        const summaryPath = 'allure-report/widgets/summary.json';
+        const summaryPath = 'reporter/allure-report/widgets/summary.json';
         if (!fs.existsSync(summaryPath)) {
           console.log('Allure summary not found');
           process.exit(0);
