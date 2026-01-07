@@ -8,10 +8,10 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  test:
-    name: Run Playwright Tests & Deploy Allure
+  e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     environment: PROD_ENV
@@ -20,67 +20,66 @@ jobs:
       ENV: ${{ secrets.PROD_ENV }}
 
     steps:
-      # ----------------------------------------
-      # Checkout main branch
-      # ----------------------------------------
+      # =====================================================
+      # Checkout Repository
+      # =====================================================
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      # ----------------------------------------
+      # =====================================================
       # Setup Node.js
-      # ----------------------------------------
+      # =====================================================
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
 
-      # ----------------------------------------
-      # Install dependencies
-      # ----------------------------------------
+      # =====================================================
+      # Install Dependencies
+      # =====================================================
       - name: Install dependencies
         run: npm ci
 
-      # ----------------------------------------
-      # Install Playwright browsers
-      # ----------------------------------------
+      # =====================================================
+      # Install Playwright Browsers
+      # =====================================================
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # ----------------------------------------
-      # Create .env from secret
-      # ----------------------------------------
-      - name: Create .env from secret
+      # =====================================================
+      # Create .env from GitHub Secret
+      # =====================================================
+      - name: Create .env file
         run: printf '%s' "$ENV" > .env
 
-      # ----------------------------------------
-      # Run changed tests (PR only)
-      # ----------------------------------------
-      - name: Run changed Playwright tests (PR only)
+      # =====================================================
+      # Run Changed Tests (PR only)
+      # =====================================================
+      - name: Run changed tests (Pull Request)
         if: github.event_name == 'pull_request'
         run: |
           npx bddgen
           npx playwright test --only-changed=origin/${{ github.base_ref }}
 
-      # ----------------------------------------
-      # Run full tests (push to main)
-      # ----------------------------------------
-      - name: Run Playwright tests
+      # =====================================================
+      # Run Full Tests (Push to main)
+      # =====================================================
+      - name: Run full Playwright tests
         if: github.event_name == 'push'
-        run: |
-          npx bddgen
-          npx playwright test
+        run: npm run test
 
-      # ----------------------------------------
+      # =====================================================
       # Install Allure CLI
-      # ----------------------------------------
-      - name: Install Allure CLI globally
+      # =====================================================
+      - name: Install Allure CLI
+        if: github.event_name == 'push'
         run: npm install -g allure-commandline
 
-      # ----------------------------------------
-      # Restore Allure history from gh-pages
-      # ----------------------------------------
+      # =====================================================
+      # Restore Allure History (for trend)
+      # =====================================================
       - name: Restore Allure history
         if: github.event_name == 'push'
         uses: actions/checkout@v5
@@ -89,46 +88,23 @@ jobs:
           path: gh-pages
         continue-on-error: true
 
-      # ----------------------------------------
-      # Copy history to allure-results
-      # ----------------------------------------
-      - name: Copy Allure history
+      - name: Copy history to allure-results
         if: github.event_name == 'push'
         run: |
           mkdir -p allure-results/history
-          cp -r gh-pages/history allure-results/ || true
+          cp -r gh-pages/history/* allure-results/history/ || true
 
-      # ----------------------------------------
-      # Generate Allure report
-      # ----------------------------------------
+      # =====================================================
+      # Generate Allure Report
+      # =====================================================
       - name: Generate Allure report
-        run: |
-          rm -rf allure-report
-          allure generate allure-results -o allure-report
-
-      # ----------------------------------------
-      # Save history back to gh-pages
-      # ----------------------------------------
-      - name: Save Allure history
         if: github.event_name == 'push'
-        run: |
-          cp -r allure-report/history gh-pages/ || true
+        run: npm run allure
 
-      # ----------------------------------------
-      # Upload artifact (optional)
-      # ----------------------------------------
-      - name: Upload Allure report artifact
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: allure-report
-          path: allure-report/
-          retention-days: 30
-
-      # ----------------------------------------
-      # Deploy to GitHub Pages
-      # ----------------------------------------
-      - name: Deploy Allure Report to GitHub Pages
+      # =====================================================
+      # Deploy Allure Report to GitHub Pages
+      # =====================================================
+      - name: Deploy Allure to GitHub Pages
         if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -137,10 +113,21 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
 
-      # ----------------------------------------
-      # Send Email with Allure Report Link
-      # ----------------------------------------
-      - name: Allure Summary & Email
+      # =====================================================
+      # Upload Allure Artifact (Optional)
+      # =====================================================
+      - name: Upload Allure report artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 30
+
+      # =====================================================
+      # Send Email Summary
+      # =====================================================
+      - name: Send Allure Summary Email
         if: github.event_name == 'push'
         uses: ./.github/actions/allure-summary
         with:
