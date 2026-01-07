@@ -75,14 +75,14 @@ jobs:
       # Install Allure CLI
       # =====================================================
       - name: Install Allure CLI
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         run: npm install -g allure-commandline
 
       # =====================================================
       # Restore Allure History (for trend)
       # =====================================================
       - name: Restore Allure history
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         uses: actions/checkout@v5
         with:
           ref: gh-pages
@@ -90,7 +90,7 @@ jobs:
         continue-on-error: true
 
       - name: Copy history to allure-results
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         run: |
           mkdir -p allure-results/history
           cp -r gh-pages/history/* allure-results/history/ || true
