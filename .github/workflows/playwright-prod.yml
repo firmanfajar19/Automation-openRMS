@@ -99,9 +99,17 @@ jobs:
       # Generate Allure Report
       # =====================================================
       - name: Generate Allure report
-        if: github.event_name == 'push'
-        run: npm run allure
+        run: allure generate allure-results -o allure-report
 
+      # =====================================================
+      # Allure GitHub Action
+      # =====================================================
+      - name: Publish Allure Report
+        uses: allure-framework/allure-action@v0
+        with:
+          report-directory: allure-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
       # =====================================================
       # Deploy Allure Report to GitHub Pages
       # =====================================================
