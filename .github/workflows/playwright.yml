@@ -1,8 +1,8 @@
-name: Playwright Tests Prod
+name: Playwright Regression Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, staging ]
   pull_request:
     branches: [ main ]
 
@@ -12,12 +12,31 @@ permissions:
 
 jobs:
   regression:
+    name: Regression Tests (${{ matrix.env_name }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: PROD_ENV
+    environment: ${{ matrix.environment }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - env_name: STAGING
+            branch: staging
+            environment: STAGING_ENV
+            secret_env: STAGING_ENV
+            deploy_report: false
+            send_email: false
+
+          - env_name: PRODUCTION
+            branch: main
+            environment: PROD_ENV
+            secret_env: PROD_ENV
+            deploy_report: true
+            send_email: true
 
     env:
-      ENV: ${{ secrets.PROD_ENV }}
+      ENV: ${{ secrets[matrix.secret_env] }}
 
     steps:
       # =====================================================
@@ -43,6 +62,15 @@ jobs:
         run: npm ci
 
       # =====================================================
+      # Cache Playwright Browsers
+      # =====================================================
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}
+
+      # =====================================================
       # Install Playwright Browsers
       # =====================================================
       - name: Install Playwright browsers
@@ -55,60 +83,61 @@ jobs:
         run: printf '%s' "$ENV" > .env
 
       # =====================================================
-      # Run Changed Tests (PR only)
+      # Run Tests
       # =====================================================
-      - name: Run changed tests (Pull Request)
-        if: github.event_name == 'pull_request'
+      - name: Run changed tests (PR → Production only)
+        if: github.event_name == 'pull_request' && matrix.env_name == 'PRODUCTION'
         run: |
           npx bddgen
           npx playwright test --only-changed=origin/${{ github.base_ref }}
 
-      # =====================================================
-      # Run Full Tests (Push to main)
-      # =====================================================
-      - name: Run full Playwright tests
+      - name: Run full tests
         if: github.event_name == 'push'
-        run: npm run test
+        run: |
+          npx bddgen
+          npm run test
 
       # =====================================================
-      # Install Allure CLI
+      # Allure CLI
       # =====================================================
       - name: Install Allure CLI
         if: github.event_name == 'push'
-        run: npm install -g allure-commandline
+        run: npm install -g allure-commandline@2.36.0
 
       # =====================================================
-      # Restore Allure History (for trend)
+      # Restore Allure History (Prod only)
       # =====================================================
       - name: Restore Allure history
-        if: github.event_name == 'push'
+        if: matrix.deploy_report
         uses: actions/checkout@v5
         with:
           ref: gh-pages
           path: gh-pages
         continue-on-error: true
 
-      - name: Copy history to allure-results
-        if: github.event_name == 'push'
+      - name: Copy history
+        if: matrix.deploy_report
         run: |
           mkdir -p allure-results/history
           cp -r gh-pages/history/* allure-results/history/ || true
 
       # =====================================================
-      # Create Allure Executor Info
+      # Allure Executor Info
       # =====================================================
       - name: Create Allure Executor Info
+        if: github.event_name == 'push'
         run: |
           mkdir -p allure-results
           cat <<EOF > allure-results/executor.json
           {
-            "reportName": "Regression Tests ${{github.run_number}}",  
-            "buildOrder": "${{ github.run_number }}",
-            "reportUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "name": "GitHub Actions",
             "type": "github",
-            "buildName": "Regression Tests ${{github.run_number}}",
-            "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "environment": "${{ matrix.env_name }}",
+            "reportName": "Regression Tests (${{ matrix.env_name }}) - Build #${{ github.run_number }}",
+            "buildName": "Regression ${{ matrix.env_name }} #${{ github.run_number }}",
+            "buildOrder": "${{ github.run_number }}",
+            "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "reportUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }
           EOF
 
@@ -120,10 +149,10 @@ jobs:
         run: npm run allure
 
       # =====================================================
-      # Deploy Allure Report to GitHub Pages
+      # Deploy Allure (Prod only)
       # =====================================================
       - name: Deploy Allure to GitHub Pages
-        if: github.event_name == 'push'
+        if: matrix.deploy_report
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -132,21 +161,21 @@ jobs:
           force_orphan: true
 
       # =====================================================
-      # Upload Allure Artifact (Optional)
+      # Upload Artifact
       # =====================================================
       - name: Upload Allure report artifact
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.env_name }}
           path: allure-report
           retention-days: 30
 
       # =====================================================
-      # Send Email Summary
+      # Send Email Summary (Prod only)
       # =====================================================
       - name: Send Allure Summary Email
-        if: github.event_name == 'push'
+        if: matrix.send_email && github.event_name == 'push'
         uses: ./.github/actions/allure-summary
         with:
           smtp_host: ${{ secrets.SMTP_HOST }}
