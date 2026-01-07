@@ -95,6 +95,23 @@ jobs:
           cp -r gh-pages/history/* allure-results/history/ || true
 
       # =====================================================
+      # Create Allure Executor Info
+      # =====================================================
+      - name: Create Allure Executor Info
+        run: |
+          mkdir -p allure-results
+          cat <<EOF > allure-results/executor.json
+          {
+            "name": "GitHub Actions",
+            "type": "github",
+            "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "buildOrder": "${{ github.run_number }}",
+            "buildName": "Regression Tests",
+            "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+
+      # =====================================================
       # Generate Allure Report
       # =====================================================
       - name: Generate Allure report
