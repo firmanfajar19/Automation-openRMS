@@ -110,6 +110,7 @@ runs:
                 </tr>
               </table>
 
+              <h3>🔹 Test Report Links</h3>
               <table border="1" cellpadding="8" cellspacing="0" width="500"
                style="border-collapse: collapse;">
                 <tr style="background:#f2f2f2">
@@ -130,7 +131,7 @@ runs:
                   <td>Regression Test Report</td>
                   <td>
                     <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}">
-                      View Allure Report
+                      View Report
                     </a>
                   </td>
                 </tr>
