@@ -1,14 +1,5 @@
-/**
- * Create or update PR comment with Allure summary
- * Compatible with Playwright + Allure 2
- */
-
 const fs = require("fs");
 const path = require("path");
-
-// --------------------------------------------------
-// Config
-// --------------------------------------------------
 const SUMMARY_PATH = "allure-report/widgets/summary.json";
 const COMMENT_MARKER = "🧪 Test Summary";
 
@@ -40,18 +31,6 @@ const total = passed + failed + broken + skipped + unknown;
 const passRate = total
     ? ((passed / total) * 100).toFixed(2)
     : "0.00";
-
-// --------------------------------------------------
-// Duration (ms → human readable)
-// --------------------------------------------------
-const durationMs = time.duration || 0;
-
-function formatDuration(ms) {
-    const sec = Math.floor(ms / 1000);
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m}m ${s}s`;
-}
 
 // --------------------------------------------------
 // Donut color logic
@@ -125,7 +104,6 @@ ${donutSvg}
 
 **📊 Total Tests:** ${total}  
 **📈 Pass Rate:** ${passRate}%
-**⏱ Duration:** ${formatDuration(durationMs)}
 
 <sub>Generated automatically by GitHub Actions</sub>
 `.trim();
