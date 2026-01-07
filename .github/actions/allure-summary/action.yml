@@ -1,5 +1,5 @@
 name: "Extract Allure Summary & Send Email"
-description: "Parse Allure summary, calculate metrics, zip report, and send email"
+description: "Parse Allure summary, calculate metrics and send email"
 
 inputs:
   smtp_host:
@@ -71,7 +71,7 @@ runs:
             <body style="font-family: Arial, sans-serif; color:#333">
               <p>Hello Team,</p>
 
-              <p>This is an automated email to inform you about the regression test results.</p>
+              <p>This is regression test results. Please find the summary below:</p>
 
               <h3>🔹 Test Report Summary</h3>
               <table border="1" cellpadding="8" cellspacing="0" width="400"
@@ -80,17 +80,17 @@ runs:
                   <th align="left">Metric</th>
                   <th align="center">Value</th>
                 </tr>
-                <tr><td>📋 Total Tests</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
+                <tr><td>📋 Total Scenarios</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
                 <tr><td>✅ Passed</td><td align="center"> ${{ env.PASSED_TESTS }}</td></tr>
                 <tr><td>❌ Failed</td><td align="center"> ${{ env.FAILED_TESTS }}</td></tr>
                 <tr><td>⚠️ Broken</td><td align="center"> ${{ env.BROKEN_TESTS }}</td></tr>
                 <tr><td>⏭️ Skipped</td><td align="center"> ${{ env.SKIPPED_TESTS }}</td></tr>
                 <tr><td>⏱️ Execution Duration</td><td align="center"> ${{ env.EXECUTION_DURATION }}</td></tr>
-                <tr><td>📈 Pass Rate</td><td align="center"> ${{ env.PASS_RATE }}%</td></tr>
+                <tr><td>📈 Success Rate</td><td align="center"> ${{ env.PASS_RATE }}%</td></tr>
               </table>
 
               <h3>🔹 Test Report Links</h3>
-              <table border="1" cellpadding="8" cellspacing="0" width="500"
+              <table border="1" cellpadding="8" cellspacing="0" width="400"
                style="border-collapse: collapse;">
                 <tr style="background:#f2f2f2">
                   <th align="left">Report Type</th>

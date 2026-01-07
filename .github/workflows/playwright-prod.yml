@@ -61,19 +61,11 @@ jobs:
         run: |
           mkdir -p reporter/allure-results/history
           cp -r gh-pages/history/* reporter/allure-results/history/ || true
-      - name: Create Allure Executor Info 
-        run: | 
-          mkdir -p reporter/allure-results 
-          cat <<EOF > reporter/allure-results/executor.json 
-            { 
-              "reportName": "Regression Tests - Build#${{github.run_number}}", 
-              "buildOrder": "${{ github.run_number }}", 
-              "reportUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-              "name": "GitHub Actions", 
-              "type": "github", 
-              "buildName": "Regression Tests - Build#${{github.run_number}}", 
-              "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" } 
-          EOF
+      - name: Create Allure Executor Info
+        if: github.event_name == 'push'
+        run: |
+          mkdir -p reporter/allure-results
+          envsubst < reporter/allure-executor.tpl.json > reporter/allure-results/executor.json
       - name: Generate Allure report
         if: github.event_name == 'push'
         run: npm run allure
@@ -93,7 +85,7 @@ jobs:
           path: reporter/allure-report
           retention-days: 30
       - name: Send Allure Summary Email
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || success()
         uses: ./.github/actions/allure-summary
         with:
           smtp_host: ${{ secrets.SMTP_HOST }}

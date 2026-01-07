@@ -1,0 +1,9 @@
+{
+    "reportName": "Regression Tests - Build#${GITHUB_RUN_NUMBER}",
+    "buildOrder": "${GITHUB_RUN_NUMBER}",
+    "reportUrl": "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
+    "name": "GitHub Actions",
+    "type": "github",
+    "buildName": "Regression Tests - Build#${GITHUB_RUN_NUMBER}",
+    "buildUrl": "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+}

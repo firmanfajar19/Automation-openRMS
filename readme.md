@@ -20,7 +20,6 @@ Automation-openRMS/
 │       ├── pages/          # Page objects for BDD (*.js)   
 │       └── step_definitions/ # Step definitions for BDD (*.js)
 ├── .env                    # Environment variables
-├── allure-report/          # Generated Allure report (artifacts)
 ├── .gitignore              # Git ignore rules
 ├── netlify.toml            # Netlify configuration
 ├── package.json            # Project dependencies and scripts
