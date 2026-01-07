@@ -1,0 +1,19 @@
+name: Playwright Regression - Production
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-prod:
+    uses: ./.github/workflows/playwright-config.yml
+    with:
+      env_name: PRODUCTION
+      environment: PROD_ENV
+      secret_env: PROD_ENV
+      deploy_report: true
+      send_email: true
+      run_changed_only: ${{ github.event_name == 'pull_request' }}
+    secrets: inherit

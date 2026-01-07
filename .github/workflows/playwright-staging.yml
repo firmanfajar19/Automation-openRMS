@@ -1,0 +1,16 @@
+name: Playwright Regression - Staging
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  run-staging:
+    uses: ./.github/workflows/playwright-config.yml
+    with:
+      env_name: STAGING
+      environment: STAGING_ENV
+      secret_env: STAGING_ENV
+      deploy_report: false
+      send_email: false
+    secrets: inherit
