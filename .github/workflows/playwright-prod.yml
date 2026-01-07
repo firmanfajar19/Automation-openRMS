@@ -1,4 +1,4 @@
-name: Playwright Tests Prod
+name: Playwright Regression - Production
 
 on:
   push:
@@ -6,153 +6,30 @@ on:
   pull_request:
     branches: [ main ]
 
+
 permissions:
   contents: write
   pull-requests: write
-
+ 
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    environment: PROD_ENV
+  pr-check:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/playwright-config.yml
+    with:
+      env_name: PRODUCTION
+      environment: PROD_ENV
+      secret_env: PROD_ENV
+      run_changed_only: true
+      deploy_report: false
+      send_email: false
 
-    env:
-      ENV: ${{ secrets.PROD_ENV }}
-
-    steps:
-      # =====================================================
-      # Checkout Repository
-      # =====================================================
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      # =====================================================
-      # Setup Node.js
-      # =====================================================
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-
-      # =====================================================
-      # Install Dependencies
-      # =====================================================
-      - name: Install dependencies
-        run: npm ci
-
-      # =====================================================
-      # Install Playwright Browsers
-      # =====================================================
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      # =====================================================
-      # Create .env from GitHub Secret
-      # =====================================================
-      - name: Create .env file
-        run: printf '%s' "$ENV" > .env
-
-      # =====================================================
-      # Run Changed Tests (PR only)
-      # =====================================================
-      - name: Run changed tests (Pull Request)
-        if: github.event_name == 'pull_request'
-        run: |
-          npx bddgen
-          npx playwright test --only-changed=origin/${{ github.base_ref }}
-
-      # =====================================================
-      # Run Full Tests (Push to main)
-      # =====================================================
-      - name: Run full Playwright tests
-        if: github.event_name == 'push'
-        run: npm run test
-
-      # =====================================================
-      # Install Allure CLI
-      # =====================================================
-      - name: Install Allure CLI
-        if: github.event_name == 'push'
-        run: npm install -g allure-commandline
-
-      # =====================================================
-      # Restore Allure History (for trend)
-      # =====================================================
-      - name: Restore Allure history
-        if: github.event_name == 'push'
-        uses: actions/checkout@v5
-        with:
-          ref: gh-pages
-          path: gh-pages
-        continue-on-error: true
-
-      - name: Copy history to allure-results
-        if: github.event_name == 'push'
-        run: |
-          mkdir -p allure-results/history
-          cp -r gh-pages/history/* allure-results/history/ || true
-
-      # =====================================================
-      # Create Allure Executor Info
-      # =====================================================
-      - name: Create Allure Executor Info
-        run: |
-          mkdir -p allure-results
-          cat <<EOF > allure-results/executor.json
-          {
-            "reportName": "Regression Tests ${{github.run_number}}",  
-            "buildOrder": "${{ github.run_number }}",
-            "reportUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "name": "GitHub Actions",
-            "type": "github",
-            "buildName": "Regression Tests ${{github.run_number}}",
-            "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }
-          EOF
-
-      # =====================================================
-      # Generate Allure Report
-      # =====================================================
-      - name: Generate Allure report
-        if: github.event_name == 'push'
-        run: npm run allure
-
-      # =====================================================
-      # Deploy Allure Report to GitHub Pages
-      # =====================================================
-      - name: Deploy Allure to GitHub Pages
-        if: github.event_name == 'push'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
-          publish_branch: gh-pages
-          force_orphan: true
-
-      # =====================================================
-      # Upload Allure Artifact (Optional)
-      # =====================================================
-      - name: Upload Allure report artifact
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: allure-report
-          path: allure-report
-          retention-days: 30
-
-      # =====================================================
-      # Send Email Summary
-      # =====================================================
-      - name: Send Allure Summary Email
-        if: github.event_name == 'push'
-        uses: ./.github/actions/allure-summary
-        with:
-          smtp_host: ${{ secrets.SMTP_HOST }}
-          smtp_port: ${{ secrets.SMTP_PORT }}
-          smtp_user: ${{ secrets.SMTP_USER }}
-          smtp_pass: ${{ secrets.SMTP_PASS }}
-          email_to: ${{ secrets.EMAIL_TO }}
-          repo_owner: ${{ github.repository_owner }}
-          repo_name: ${{ github.event.repository.name }}
+  prod-regression:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/playwright-config.yml
+    with:
+      env_name: PRODUCTION
+      environment: PROD_ENV
+      secret_env: PROD_ENV
+      run_changed_only: false
+      deploy_report: true
+      send_email: true
