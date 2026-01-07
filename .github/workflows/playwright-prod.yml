@@ -75,7 +75,7 @@ jobs:
       # Install Allure CLI
       # =====================================================
       - name: Install Allure CLI
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         run: npm install -g allure-commandline
 
       # =====================================================
@@ -99,7 +99,7 @@ jobs:
       # Generate Allure Report
       # =====================================================
       - name: Generate Allure report
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         run: npm run allure
 
       # =====================================================
@@ -122,7 +122,7 @@ jobs:
           script: |
             const comment = require('./.github/scripts/pr-comment.js');
             await comment({ github, context });
-            
+
       # =====================================================
       # Deploy Allure Report to GitHub Pages
       # =====================================================
