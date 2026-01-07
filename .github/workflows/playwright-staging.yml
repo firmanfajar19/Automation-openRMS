@@ -30,19 +30,10 @@ jobs:
         printf '%s' "$ENV" > .env
     - name: Run Playwright tests 
       run: npm run test
-
-      # ----------------------------------------
-      # Allure CLI
-      # ----------------------------------------
     - name: Install Allure CLI globally
       run: npm install -g allure-commandline
-
     - name: Generate Allure report
       run: npm run allure
-
-      # ----------------------------------------
-      # Upload Artifact
-      # ----------------------------------------
     - name: Upload Allure report artifact
       if: always()
       uses: actions/upload-artifact@v5
