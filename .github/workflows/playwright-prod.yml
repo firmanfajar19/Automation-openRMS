@@ -1,35 +1,96 @@
-name: Playwright Regression - Production
-
+name: Playwright Tests - Prod
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-
 permissions:
   contents: write
   pull-requests: write
- 
-jobs:
-  pr-check:
-    if: github.event_name == 'pull_request'
-    uses: ./.github/workflows/playwright-config.yml
-    with:
-      env_name: PRODUCTION
-      environment: PROD_ENV
-      secret_env: PROD_ENV
-      run_changed_only: true
-      deploy_report: false
-      send_email: false
 
-  prod-regression:
-    if: github.event_name == 'push'
-    uses: ./.github/workflows/playwright-config.yml
-    with:
-      env_name: PRODUCTION
-      environment: PROD_ENV
-      secret_env: PROD_ENV
-      run_changed_only: false
-      deploy_report: true
-      send_email: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: PROD_ENV
+
+    env:
+      ENV: ${{ secrets.PROD_ENV }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Create .env file
+        run: printf '%s' "$ENV" > .env
+      - name: Run changed tests (Pull Request)
+        if: github.event_name == 'pull_request'
+        run: |
+          npx bddgen
+          npx playwright test --only-changed=origin/${{ github.base_ref }}
+      - name: Run full Playwright tests
+        if: github.event_name == 'push'
+        run: npm run test
+      - name: Install Allure CLI
+        if: github.event_name == 'push'
+        run: npm install -g allure-commandline
+      - name: Restore Allure history
+        if: github.event_name == 'push'
+        uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true
+      - name: Copy history to allure-results
+        if: github.event_name == 'push'
+        run: |
+          mkdir -p reporter/allure-results/history
+          cp -r gh-pages/history/* reporter/allure-results/history/ || true
+      - name: Create Allure Executor Info
+        run: |
+          mkdir -p reporter/allure-results
+          envsubst < reporter/allure-executor.json > reporter/allure-results/executor.json
+      - name: Generate Allure report
+        if: github.event_name == 'push'
+        run: npm run allure
+      - name: Deploy Allure to GitHub Pages
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: reporter/allure-report
+          publish_branch: gh-pages
+          force_orphan: true
+      - name: Upload Allure report artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: Test-Report-Prod
+          path: reporter/allure-report
+          retention-days: 30
+      - name: Send Allure Summary Email
+        if: github.event_name == 'push'
+        uses: ./.github/actions/allure-summary
+        with:
+          smtp_host: ${{ secrets.SMTP_HOST }}
+          smtp_port: ${{ secrets.SMTP_PORT }}
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          email_to: ${{ secrets.EMAIL_TO }}
+          repo_owner: ${{ github.repository_owner }}
+          repo_name: ${{ github.event.repository.name }}

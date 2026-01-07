@@ -20,9 +20,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # -------------------------------
-    # Extract Allure Summary
-    # -------------------------------
     - name: Extract Allure summary
       shell: bash
       run: |
@@ -59,9 +56,6 @@ runs:
         fs.appendFileSync(env, `PASS_RATE=${passRate}\n`);
         EOF
 
-    # -------------------------------
-    # Send Email
-    # -------------------------------
     - name: Send Email
       uses: dawidd6/action-send-mail@v3
       with:
@@ -79,7 +73,7 @@ runs:
 
               <p>This is an automated email to inform you about the regression test results.</p>
 
-              <h3>🔹 Test Execution Summary</h3>
+              <h3>🔹 Test Report Summary</h3>
               <table border="1" cellpadding="8" cellspacing="0" width="400"
                style="border-collapse: collapse;">
                 <tr style="background:#f2f2f2">
@@ -91,23 +85,8 @@ runs:
                 <tr><td>❌ Failed</td><td align="center"> ${{ env.FAILED_TESTS }}</td></tr>
                 <tr><td>⚠️ Broken</td><td align="center"> ${{ env.BROKEN_TESTS }}</td></tr>
                 <tr><td>⏭️ Skipped</td><td align="center"> ${{ env.SKIPPED_TESTS }}</td></tr>
-              </table>
-
-              <h3>🔹 Quality Metrics</h3>
-              <table border="1" cellpadding="8" cellspacing="0" width="400"
-               style="border-collapse: collapse;">
-                <tr style="background:#f2f2f2">
-                  <th align="left">Metric</th>
-                  <th align="center">Value</th>
-                </tr>
-                <tr>
-                  <td>📈 Pass Rate</td>
-                  <td align="center"> ${{ env.PASS_RATE }}%</td>
-                </tr>
-                <tr>
-                  <td>⏱️ Execution Duration</td>
-                  <td align="center"> ${{ env.EXECUTION_DURATION }}</td>
-                </tr>
+                <tr><td>⏱️ Execution Duration</td><td align="center"> ${{ env.EXECUTION_DURATION }}</td></tr>
+                <tr><td>📈 Pass Rate</td><td align="center"> ${{ env.PASS_RATE }}%</td></tr>
               </table>
 
               <h3>🔹 Test Report Links</h3>
