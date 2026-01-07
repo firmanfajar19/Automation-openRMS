@@ -8,10 +8,11 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  checks: write
 
 jobs:
   test:
-    name: Run Playwright Tests & Deploy Allure
     runs-on: ubuntu-latest
     timeout-minutes: 60
     environment: PROD_ENV
@@ -68,9 +69,7 @@ jobs:
       # ----------------------------------------
       - name: Run Playwright tests
         if: github.event_name == 'push'
-        run: |
-          npx bddgen
-          npx playwright test
+        run: npm run test
 
       # ----------------------------------------
       # Install Allure CLI
@@ -102,9 +101,7 @@ jobs:
       # Generate Allure report
       # ----------------------------------------
       - name: Generate Allure report
-        run: |
-          rm -rf allure-report
-          allure generate allure-results -o allure-report
+        run: npm run allure
 
       # ----------------------------------------
       # Save history back to gh-pages
@@ -113,6 +110,18 @@ jobs:
         if: github.event_name == 'push'
         run: |
           cp -r allure-report/history gh-pages/ || true
+
+      # ----------------------------------------
+      # Run Allure Action
+      # ----------------------------------------
+      - name: Run Allure Action
+        uses: allure-framework/allure-report@v0
+        with:
+          # Path to the generated report directory
+          # By default, it's set to `./allure-report`
+          report-directory: "./allure-report"
+          # GitHub Token that's used for posting the comments in Pull Requests
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # ----------------------------------------
       # Upload artifact (optional)
