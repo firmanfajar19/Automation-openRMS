@@ -9,7 +9,6 @@ node_modules/
 .env
 .env.staging
 .env.prod
-allure-results
-allure-report
-.allure
-reporter/allure-results
+reports/allure-results
+reports/allure-report
+
