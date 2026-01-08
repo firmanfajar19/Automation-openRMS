@@ -68,56 +68,106 @@ runs:
         subject: "🚀 Automation Test Report: [${{ inputs.repo_name }}] - [Build #${{ github.run_number }}]"
         html_body: |
           <html>
-            <body style="font-family: Arial, sans-serif; color:#333">
-              <p>Hi Team,</p>
-              <p>Please find the report of the latest automation test run for ${{ github.workflow }}.</p>
-
-              <h3>🔹 Test Report Summary</h3>
-              <table border="1" cellpadding="8" cellspacing="0" width="400"
-               style="border-collapse: collapse;">
-                <tr style="background:#f2f2f2">
-                  <th align="left">Metric</th>
-                  <th align="center">Value</th>
-                </tr>
-                <tr><td>📋 Total Scenarios</td><td align="center">${{ env.TOTAL_TESTS }}</td></tr>
-                <tr><td>✅ Passed</td><td align="center"> ${{ env.PASSED_TESTS }}</td></tr>
-                <tr><td>❌ Failed</td><td align="center"> ${{ env.FAILED_TESTS }}</td></tr>
-                <tr><td>⚠️ Broken</td><td align="center"> ${{ env.BROKEN_TESTS }}</td></tr>
-                <tr><td>⏭️ Skipped</td><td align="center"> ${{ env.SKIPPED_TESTS }}</td></tr>
-                <tr><td>⏱️ Execution Duration</td><td align="center"> ${{ env.EXECUTION_DURATION }}</td></tr>
-                <tr><td>📈 Success Rate</td><td align="center"> ${{ env.PASS_RATE }}%</td></tr>
-              </table>
-
-              <h3>🔹 Test Report Links</h3>
-              <table border="1" cellpadding="8" cellspacing="0" width="400"
-               style="border-collapse: collapse;">
-                <tr style="background:#f2f2f2">
-                  <th align="left">Report Type</th>
-                  <th align="left">Link</th>
-                </tr>
-
+            <head>
+              <meta charset="UTF-8">
+            </head>
+            <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9fafb; color: #1f2937;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f9fafb; padding: 20px;">
                 <tr>
-                  <td>Workflow Run</td>
-                  <td>
-                    <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">
-                      View Execution Details
-                    </a>
+                  <td align="center">
+                    <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e5e7eb;">
+                      
+                      <tr>
+                        <td style="background-color: #2563eb; padding: 30px 40px; text-align: left;">
+                          <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.025em;">
+                            Automation Test Report
+                          </h1>
+                          <p style="margin: 8px 0 0 0; color: #bfdbfe; font-size: 14px;">
+                            Workflow: ${{ github.workflow }}
+                          </p>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="padding: 40px;">
+                          <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.5; color: #4b5563;">
+                            Hi Team,<br>
+                            The latest automation suite has completed. Here is a summary of the execution results:
+                          </p>
+
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 30px; background-color: #f3f4f6; border-radius: 6px;">
+                            <tr>
+                              <td style="padding: 20px; text-align: center;">
+                                <span style="display: block; font-size: 12px; text-transform: uppercase; color: #6b7280; font-weight: 600; letter-spacing: 0.05em;">Overall Success Rate</span>
+                                <span style="display: block; font-size: 36px; font-weight: 800; color: #059669;">${{ env.PASS_RATE }}%</span>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827; border-left: 4px solid #2563eb; padding-left: 10px;">Test Summary</h3>
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 30px;">
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                              <td style="padding: 12px 0; color: #6b7280;">📋 Total Scenarios</td>
+                              <td align="right" style="padding: 12px 0; font-weight: 600;">${{ env.TOTAL_TESTS }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                              <td style="padding: 12px 0; color: #6b7280;">✅ Passed</td>
+                              <td align="right" style="padding: 12px 0; font-weight: 600; color: #059669;">${{ env.PASSED_TESTS }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                              <td style="padding: 12px 0; color: #6b7280;">❌ Failed</td>
+                              <td align="right" style="padding: 12px 0; font-weight: 600; color: #dc2626;">${{ env.FAILED_TESTS }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                              <td style="padding: 12px 0; color: #6b7280;">⚠️ Broken / Errors</td>
+                              <td align="right" style="padding: 12px 0; font-weight: 600; color: #d97706;">${{ env.BROKEN_TESTS }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                              <td style="padding: 12px 0; color: #6b7280;">⏱️ Duration</td>
+                              <td align="right" style="padding: 12px 0; font-weight: 600;">${{ env.EXECUTION_DURATION }}</td>
+                            </tr>
+                          </table>
+
+                          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #111827; border-left: 4px solid #2563eb; padding-left: 10px;">Quick Links</h3>
+                          <table width="100%" border="0" cellspacing="0" cellpadding="8">
+                            <tr>
+                              <td style="padding-left: 0;">
+                                <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" 
+                                   style="display: inline-block; padding: 10px 20px; background-color: #ffffff; border: 1px solid #d1d5db; color: #374151; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+                                   🔍 View Workflow
+                                </a>
+                                &nbsp;
+                                <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" 
+                                   style="display: inline-block; padding: 10px 20px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+                                   📊 Full HTML Report
+                                </a>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                            <tr>
+                              <td>
+                                <p style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.6;">
+                                  Best Regards,<br>
+                                  <strong style="color: #111827;">Quality Assurance Team</strong><br>
+                                  <span style="font-size: 12px;">Automated via GitHub Actions</span>
+                                </p>
+                              </td>
+                              <td align="right" valign="bottom">
+                                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="30" height="30" style="opacity: 0.2;">
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    
+                    <p style="margin-top: 20px; font-size: 12px; color: #9ca3af; text-align: center;">
+                      This is an automated message. Please do not reply directly to this email.
+                    </p>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>Test Report</td>
-                  <td>
-                    <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}">
-                      View Report
-                    </a>
-                  </td>
-                </tr>
               </table>
-
-              <p style="font-weight:600;">
-                Regards,<br/>
-                QA Team
-              </p>
             </body>
           </html>
