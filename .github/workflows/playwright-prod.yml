@@ -103,7 +103,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: Automation-Test-Report-${{ github.event_name }}-${{ github.run_number }}
+          name: Automation-Test-Report-${{ github.workflow }}-${{ github.run_number }}
           path: reports/allure-report
           retention-days: 30
 
