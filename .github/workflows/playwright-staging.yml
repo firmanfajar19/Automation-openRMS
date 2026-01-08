@@ -39,5 +39,5 @@ jobs:
       uses: actions/upload-artifact@v5
       with:
         name: Test-Report-Staging
-        path: reporter/allure-report/
+        path: reports/allure-report/
         retention-days: 30

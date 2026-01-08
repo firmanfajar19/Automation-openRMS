@@ -77,14 +77,14 @@ jobs:
       - name: Copy Allure history to allure-results
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
-          mkdir -p reporter/allure-results/history
-          cp -r gh-pages/history/* reporter/allure-results/history/ || true
+          mkdir -p reports/allure-results/history
+          cp -r gh-pages/history/* reports/allure-results/history/ || true
 
       - name: Create Allure Executor Info
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
-          mkdir -p reporter/allure-results
-          envsubst < reporter/allure-executor.tpl.json > reporter/allure-results/executor.json
+          mkdir -p reports/allure-results
+          envsubst < reports/allure-executor.tpl.json > reports/allure-results/executor.json
 
       - name: Generate Allure Report
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
@@ -95,7 +95,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: reporter/allure-report
+          publish_dir: reports/allure-report
           publish_branch: gh-pages
           force_orphan: true
 
@@ -104,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: Automation-Test-Report-Prod
-          path: reporter/allure-report
+          path: reports/allure-report
           retention-days: 30
 
       - name: Send Allure Summary to Email
