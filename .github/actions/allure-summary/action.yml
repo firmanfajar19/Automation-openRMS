@@ -65,12 +65,12 @@ runs:
         password: ${{ inputs.smtp_pass }}
         to: ${{ inputs.email_to }}
         from: "QA Team <${{ inputs.smtp_user }}>"
-        subject: "🚀 Automation Test Summary: [${{ inputs.repo_name }}] - [Build #${{ github.run_number }}]"
+        subject: "🚀 Automation Test Report: [${{ inputs.repo_name }}] - [Build #${{ github.run_number }}]"
         html_body: |
           <html>
             <body style="font-family: Arial, sans-serif; color:#333">
-              <p>Hi QA Team,</p>
-              <p>Please find the summary of the latest automation test run for ${{ github.workflow }}.</p>
+              <p>Hi Team,</p>
+              <p>Please find the report of the latest automation test run for ${{ github.workflow }}.</p>
 
               <h3>🔹 Test Report Summary</h3>
               <table border="1" cellpadding="8" cellspacing="0" width="400"
