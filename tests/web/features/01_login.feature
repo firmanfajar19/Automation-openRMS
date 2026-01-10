@@ -15,7 +15,7 @@ Feature: Login page openRMS on Desktop Website
 
     Examples:
       | LOCATION          |
-      | Inpatient Ward    |
+      | Inpatient Wardsss |
       | Outpatient Clinic |
       | Isolation Ward    |
       | Pharmacy          |

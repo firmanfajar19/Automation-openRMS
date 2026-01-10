@@ -214,6 +214,9 @@ runs:
                             This is an automated email from GitHub Actions.
                           </p>
                         </td>
+                        <td style="background-color: #f9fafb; padding: 20px 40px; align="right" valign="bottom">
+                          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="30" height="30" style="opacity: 0.2;">
+                        </td>
                       </tr>
                     </table>
                   </td>
