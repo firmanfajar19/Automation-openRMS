@@ -5,7 +5,9 @@ import os from 'os';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+if (!process.env.CI) {
+  dotenv.config({ path: path.resolve(__dirname, '.env') });
+}
 
 const RPConfig = {
   apiKey: process.env.RP_API_KEY,
