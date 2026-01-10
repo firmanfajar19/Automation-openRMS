@@ -105,14 +105,14 @@ runs:
                     <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
                       
                       <tr>
-                        <td style="background-color: #1f2937; padding: 32px 40px;">
+                        <td colspan="2" style="background-color: #1f2937; padding: 32px 40px;">
                           <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.025em;">Test Execution Summary</h1>
                           <p style="margin: 4px 0 0 0; color: #9ca3af; font-size: 14px;">Build #${{ github.run_number }} &bull; ${{ inputs.repo_name }}</p>
                         </td>
                       </tr>
 
                       <tr>
-                        <td style="padding:30px 40px 10px 40px; ">
+                        <td colspan="2" style="padding:30px 40px 10px 40px; ">
                           <p style="margin:0;font-size:14px;line-height:1.7;color:#6b7280;">
                             <b>Hi Team,</b><br/><br/>
                             This is the summary of the latest automated test execution for
@@ -122,7 +122,7 @@ runs:
                       </tr>
 
                       <tr>
-                        <td align="center" style="padding: 40px 20px 30px 20px;">
+                        <td colspan="2" align="center" style="padding: 40px 20px 30px 20px;">
                           <table border="0" cellspacing="0" cellpadding="0" width="100%">
                             <tr>
                               <td align="center">
@@ -130,7 +130,7 @@ runs:
                                   border="0"
                                   cellspacing="0"
                                   cellpadding="0"
-                                  width="560"
+                                  width="500"
                                   style="
                                     background-color: #f9fafb;
                                     border-radius: 24px;
@@ -138,7 +138,7 @@ runs:
                                   "
                                 >
                                   <tr>
-                                    <td align="center" style="padding: 40px 20px;">
+                                    <td colspan="2" align="center" style="padding: 40px 20px;">
                                       <img
                                         src="${{ env.CHART_URL }}"
                                         width="200"
@@ -156,26 +156,26 @@ runs:
                       </tr>
 
                       <tr>
-                        <td style="padding: 0 40px 30px 40px;">
+                        <td colspan="2" style="padding: 0 40px 30px 40px;">
                           <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 10px;">
                             <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">📋 Total Scenarios</td>
+                              <td colspan="2" style="padding: 10px 0; font-size: 14px; color: #6b7280;">📋 Total Scenarios</td>
                               <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1f2937;">${{ env.TOTAL_TESTS }}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">✅ Passed</td>
+                              <td colspan="2" style="padding: 10px 0; font-size: 14px; color: #6b7280;">✅ Passed</td>
                               <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #10b981;">${{ env.PASSED_TESTS }}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">❌ Failed</td>
+                              <td colspan="2" style="padding: 10px 0; font-size: 14px; color: #6b7280;">❌ Failed</td>
                               <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #f43f5e;">${{ env.FAILED_TESTS }}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">⚠️ Others (Broken/Skipped)</td>
+                              <td colspan="2" style="padding: 10px 0; font-size: 14px; color: #6b7280;">⚠️ Others (Broken/Skipped)</td>
                               <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #f59e0b;">${{ env.BROKEN_TESTS }}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">⏱️ Duration</td>
+                              <td colspan="2" style="padding: 10px 0; font-size: 14px; color: #6b7280;">⏱️ Duration</td>
                               <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1f2937;">${{ env.EXECUTION_DURATION }}</td>
                             </tr>
                           </table>
@@ -183,7 +183,7 @@ runs:
                       </tr>
 
                       <tr>
-                        <td style="padding: 0 40px 40px 40px; text-align: center;">
+                        <td colspan="2" style="padding: 0 40px 40px 40px; text-align: center;">
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td>
@@ -206,12 +206,12 @@ runs:
                       </tr>
 
                       <tr>
-                        <td style="background-color: #f9fafb; padding: 20px 40px; text-align: center;">
+                        <td style="background-color: #f9fafb; padding: 20px 40px; text-align: left;">
                           <p style="margin: 0; font-size: 12px; color: #9ca3af;">
                             This is an automated email from GitHub Actions.
                           </p>
                         </td>
-                        <td style="background-color: #f9fafb; padding: 20px 40px; align="right" valign="bottom">
+                        <td style="background-color: #f9fafb; padding: 20px 40px; text-align: right;">
                           <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="30" height="30" style="opacity: 0.2;">
                         </td>
                       </tr>

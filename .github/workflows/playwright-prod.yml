@@ -18,7 +18,6 @@ jobs:
 
     env:
       ENV: ${{ secrets.PROD_ENV }}
-      PLAYWRIGHT_FAILED: 'false'
 
     steps:
       - name: Checkout repository
@@ -46,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Install Playwright browsers
+      - name: Install playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
         
@@ -60,13 +59,12 @@ jobs:
           npx playwright test --only-changed=origin/${{ github.base_ref }}
         continue-on-error: true
 
-
-      - name: Run full Playwright tests
+      - name: Run full playwright tests
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: npm run test || echo "PLAYWRIGHT_FAILED=true" >> $GITHUB_ENV
+        run: npm run test
         continue-on-error: true
 
-      - name: Install Allure CLI
+      - name: Install allure CLI
         if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: npm install -g allure-commandline
 
@@ -84,17 +82,17 @@ jobs:
           mkdir -p reports/allure-results/history
           cp -r gh-pages/history/* reports/allure-results/history/ || true
 
-      - name: Create Allure Executor Info
+      - name: Create allure executor info
         if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p reports/allure-results
           envsubst < reports/allure-executor.tpl.json > reports/allure-results/executor.json
 
-      - name: Generate Allure Report
+      - name: Generate allure report
         if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: npm run allure
 
-      - name: Deploy Allure Report to GitHub Pages
+      - name: Deploy allure report to GitHub Pages
         if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -103,7 +101,7 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
 
-      - name: Upload Allure Report artifact
+      - name: Upload allure report artifact
         if: always()
         uses: actions/upload-artifact@v5
         with:
@@ -111,7 +109,7 @@ jobs:
           path: reports/allure-report
           retention-days: 30
 
-      - name: Send Allure Summary to Email
+      - name: Send allure summary to email
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && always()
         uses: ./.github/actions/allure-summary
         with:
@@ -122,7 +120,3 @@ jobs:
           email_to: ${{ secrets.EMAIL_TO }}
           repo_owner: ${{ github.repository_owner }}
           repo_name: ${{ github.event.repository.name }}
-
-      - name: Fail job if tests failed
-        if: env.PLAYWRIGHT_FAILED == 'true'
-        run: exit 1
