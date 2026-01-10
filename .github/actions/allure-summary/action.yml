@@ -61,10 +61,24 @@ runs:
             }]
           },
           options: {
-            cutout: '70%',
+            cutout: '72%',
             plugins: {
               legend: { display: false },
-              tooltip: { enabled: true }
+              tooltip: { enabled: true },
+              doughnutlabel: {
+                labels: [
+                  {
+                    text: `Success Rate`,
+                    font: { size: 12, weight: '600' },
+                    color: '#6b7280'
+                  },
+                  {
+                    text: `${passRate}%`,
+                    font: { size: 28, weight: '700' },
+                    color: '#111827'
+                  }
+                ]
+              }
             }
           }
         };
@@ -92,7 +106,7 @@ runs:
         username: ${{ inputs.smtp_user }}
         password: ${{ inputs.smtp_pass }}
         to: ${{ inputs.email_to }}
-        from: "QA Automation <${{ inputs.smtp_user }}>"
+        from: "QA Team <${{ inputs.smtp_user }}>"
         subject: "🚀 Automation Test Report: ${{ inputs.repo_name }} | Build #${{ github.run_number }} [${{ env.PASS_RATE }}%]"
         html_body: |
           <!DOCTYPE html>
