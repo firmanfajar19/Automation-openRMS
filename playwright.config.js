@@ -7,6 +7,22 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+const RPConfig = {
+  apiKey: process.env.RP_API_KEY,
+  endpoint: process.env.RP_ENDPOINT,
+  project: process.env.RP_PROJECT,
+  launch: process.env.GITHUB_EVENT_NAME === 'pull_request'
+    ? `PR-${process.env.GITHUB_REF_NAME}`
+    : `PROD-${process.env.GITHUB_RUN_NUMBER}`,
+  description: `Run #${process.env.GITHUB_RUN_NUMBER}`,
+  attributes: [
+    { key: 'branch', value: process.env.GITHUB_REF_NAME },
+    { key: 'trigger', value: process.env.GITHUB_EVENT_NAME },
+    { key: 'platform', value: os.platform() },
+    { key: 'node', value: process.version },
+  ],
+};
+
 export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
@@ -25,7 +41,8 @@ export default defineConfig({
         },
       },
     ],
-    ['list']
+    ['list'],
+    ['@reportportal/agent-js-playwright', RPConfig]
   ],
   use: {
     baseURL: process.env.BASE_URL,

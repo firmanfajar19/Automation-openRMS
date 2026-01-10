@@ -19,6 +19,14 @@ jobs:
     env:
       ENV: ${{ secrets.PROD_ENV }}
 
+      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+      RP_PROJECT: ${{ secrets.RP_PROJECT }}
+      RP_API_KEY: ${{ secrets.RP_API_KEY }}
+
+      GITHUB_RUN_NUMBER: ${{ github.run_number }}
+      GITHUB_REF_NAME: ${{ github.ref_name }}
+      GITHUB_EVENT_NAME: ${{ github.event_name }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
