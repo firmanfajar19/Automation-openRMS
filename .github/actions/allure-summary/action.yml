@@ -1,5 +1,5 @@
 name: "Extract Allure Summary & Send Email"
-description: "Parse Allure summary, calculate metrics and send email with Donut Chart"
+description: "Parse Allure summary, generate dynamic chart, and send professional email report"
 
 inputs:
   smtp_host:
@@ -20,7 +20,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Extract Allure summary
+    - name: Extract Allure summary & Generate Chart URL
       shell: bash
       run: |
         node <<'EOF'
@@ -28,7 +28,7 @@ runs:
 
         const summaryPath = 'reports/allure-report/widgets/summary.json';
         if (!fs.existsSync(summaryPath)) {
-          console.log('Allure summary not found');
+          console.error('Allure summary not found at: ' + summaryPath);
           process.exit(0);
         }
 
@@ -36,45 +36,50 @@ runs:
         const stat = summary.statistic;
         const durationMs = summary.time.duration || 0;
 
+        // Calculate Duration
         const totalSeconds = Math.floor(durationMs / 1000);
         const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
         const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
         const s = String(totalSeconds % 60).padStart(2, '0');
-
         const duration = `${h}:${m}:${s}`;
+
+        // Calculate Pass Rate
         const passRate = stat.total > 0
-          ? ((stat.passed / stat.total) * 100).toFixed(2)
-          : '0.00';
+          ? ((stat.passed / stat.total) * 100).toFixed(1)
+          : '0.0';
+
+        // QuickChart Configuration (Professional Theme)
         const chartConfig = {
           type: 'doughnut',
           data: {
+            labels: ['Passed', 'Failed', 'Others'],
             datasets: [{
-              data: [stat.passed, stat.failed, (stat.broken + stat.skipped)],
-              backgroundColor: ['#059669', '#dc2626', '#d97706'],
+              data: [stat.passed, stat.failed, (stat.broken + stat.skipped + stat.unknown)],
+              backgroundColor: ['#10b981', '#f43f5e', '#f59e0b'],
+              hoverOffset: 4,
               borderWidth: 0
             }]
           },
           options: {
+            legend: { display: false },
             plugins: {
-              datalabels: { display: false },
               doughnutlabel: {
                 labels: [
-                  { text: passRate + '%', font: { size: 24, weight: 'bold' } },
-                  { text: 'Success Rate', font: { size: 12 } }
+                  { text: passRate + '%', font: { size: 26, weight: 'bold' }, color: '#1f2937' },
+                  { text: 'PASSED', font: { size: 10, weight: 'bold' }, color: '#9ca3af' }
                 ]
               }
             }
           }
         };
 
-        const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(chartConfig))}`;
+        const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(chartConfig))}&w=250&h=250`;
 
         const env = process.env.GITHUB_ENV;
         fs.appendFileSync(env, `TOTAL_TESTS=${stat.total}\n`);
         fs.appendFileSync(env, `PASSED_TESTS=${stat.passed}\n`);
         fs.appendFileSync(env, `FAILED_TESTS=${stat.failed}\n`);
-        fs.appendFileSync(env, `BROKEN_TESTS=${stat.broken}\n`);
-        fs.appendFileSync(env, `SKIPPED_TESTS=${stat.skipped}\n`);
+        fs.appendFileSync(env, `BROKEN_TESTS=${stat.broken + stat.skipped + stat.unknown}\n`);
         fs.appendFileSync(env, `EXECUTION_DURATION=${duration}\n`);
         fs.appendFileSync(env, `PASS_RATE=${passRate}\n`);
         fs.appendFileSync(env, `CHART_URL=${chartUrl}\n`);
@@ -88,70 +93,85 @@ runs:
         username: ${{ inputs.smtp_user }}
         password: ${{ inputs.smtp_pass }}
         to: ${{ inputs.email_to }}
-        from: "QA Team <${{ inputs.smtp_user }}>"
-        subject: "🚀 Automation Test Report: [${{ inputs.repo_name }}] - [Build #${{ github.run_number }}]"
+        from: "QA Automation <${{ inputs.smtp_user }}>"
+        subject: "🚀 Test Report: ${{ inputs.repo_name }} | Build #${{ github.run_number }} [${{ env.PASS_RATE }}%]"
         html_body: |
+          <!DOCTYPE html>
           <html>
-            <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #f9fafb; color: #1f2937;">
-              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f9fafb; padding: 20px;">
+            <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding: 40px 10px;">
                 <tr>
                   <td align="center">
-                    <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;">
+                    <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
                       
                       <tr>
-                        <td style="background-color: #2563eb; padding: 30px 40px;">
-                          <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700;">Automation Test Report</h1>
-                          <p style="margin: 8px 0 0 0; color: #bfdbfe; font-size: 14px;">Workflow: ${{ github.workflow }}</p>
+                        <td style="background-color: #1f2937; padding: 32px 40px;">
+                          <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.025em;">Test Execution Summary</h1>
+                          <p style="margin: 4px 0 0 0; color: #9ca3af; font-size: 14px;">Build #${{ github.run_number }} &bull; ${{ inputs.repo_name }}</p>
                         </td>
                       </tr>
 
                       <tr>
-                        <td style="padding: 30px 40px;">
-                          <p style="font-size: 16px; color: #4b5563;">Hi Team, berikut adalah ringkasan hasil eksekusi automation suite terbaru:</p>
+                        <td align="center" style="padding: 40px 40px 20px 40px;">
+                          <img src="${{ env.CHART_URL }}" width="200" height="200" alt="Success Rate Chart">
+                        </td>
+                      </tr>
 
-                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0; background-color: #f3f4f6; border-radius: 12px;">
+                      <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid #f3f4f6; padding-top: 20px;">
                             <tr>
-                              <td align="center" style="padding: 20px;">
-                                <img src="${{ env.CHART_URL }}" width="220" height="220" alt="Success Rate Chart" style="display: block;">
-                              </td>
+                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">Total Scenarios</td>
+                              <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1f2937;">${{ env.TOTAL_TESTS }}</td>
+                            </tr>
+                            <tr>
+                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">Passed</td>
+                              <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #10b981;">${{ env.PASSED_TESTS }}</td>
+                            </tr>
+                            <tr>
+                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">Failed</td>
+                              <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #f43f5e;">${{ env.FAILED_TESTS }}</td>
+                            </tr>
+                            <tr>
+                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">Others (Broken/Skipped)</td>
+                              <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #f59e0b;">${{ env.BROKEN_TESTS }}</td>
+                            </tr>
+                            <tr>
+                              <td style="padding: 10px 0; font-size: 14px; color: #6b7280;">Duration</td>
+                              <td align="right" style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1f2937;">${{ env.EXECUTION_DURATION }}</td>
                             </tr>
                           </table>
+                        </td>
+                      </tr>
 
-                          <h3 style="font-size: 16px; border-left: 4px solid #2563eb; padding-left: 10px; color: #111827;">Test Summary</h3>
-                          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 30px;">
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                              <td style="padding: 10px 0; color: #6b7280;">📋 Total Scenarios</td>
-                              <td align="right" style="font-weight: 600;">${{ env.TOTAL_TESTS }}</td>
-                            </tr>
-                            <tr>
-                              <td style="padding: 10px 0; color: #059669;">✅ Passed</td>
-                              <td align="right" style="font-weight: 600; color: #059669;">${{ env.PASSED_TESTS }}</td>
-                            </tr>
-                            <tr>
-                              <td style="padding: 10px 0; color: #dc2626;">❌ Failed</td>
-                              <td align="right" style="font-weight: 600; color: #dc2626;">${{ env.FAILED_TESTS }}</td>
-                            </tr>
-                            <tr>
-                              <td style="padding: 10px 0; color: #d97706;">⚠️ Broken/Skipped</td>
-                              <td align="right" style="font-weight: 600; color: #d97706;">${{ env.BROKEN_TESTS }} / ${{ env.SKIPPED_TESTS }}</td>
-                            </tr>
-                            <tr>
-                              <td style="padding: 10px 0; color: #6b7280;">⏱️ Duration</td>
-                              <td align="right" style="font-weight: 600;">${{ env.EXECUTION_DURATION }}</td>
-                            </tr>
-                          </table>
-
+                      <tr>
+                        <td style="padding: 0 40px 40px 40px; text-align: center;">
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                              <td align="center">
-                                <a href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" 
-                                   style="display: inline-block; padding: 12px 24px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">
-                                   📊 View Full HTML Report
+                              <td>
+                                <a href="https://${{ inputs.repo_owner }}.github.io/${{ inputs.repo_name }}" 
+                                   style="display: block; background-color: #2563eb; color: #ffffff; padding: 14px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; margin-bottom: 10px;">
+                                   📊 Open Full Allure Report
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" 
+                                   style="display: block; background-color: #ffffff; color: #374151; padding: 14px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #d1d5db;">
+                                   🔍 View Workflow Execution
                                 </a>
                               </td>
                             </tr>
                           </table>
+                        </td>
+                      </tr>
 
+                      <tr>
+                        <td style="background-color: #f9fafb; padding: 20px 40px; text-align: center;">
+                          <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                            This is an automated email from GitHub Actions.
+                          </p>
                         </td>
                       </tr>
                     </table>
