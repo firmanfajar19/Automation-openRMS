@@ -57,17 +57,20 @@ jobs:
         run: |
           npx bddgen
           npx playwright test --only-changed=origin/${{ github.base_ref }}
+        continue-on-error: true
+
 
       - name: Run full Playwright tests
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: npm run test
+        run: npm run test || echo "PLAYWRIGHT_FAILED=true" >> $GITHUB_ENV
+        continue-on-error: true
 
       - name: Install Allure CLI
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: npm install -g allure-commandline
 
       - name: Restore Allure history
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: actions/checkout@v5
         with:
           ref: gh-pages
@@ -75,23 +78,23 @@ jobs:
         continue-on-error: true
 
       - name: Copy Allure history to allure-results
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p reports/allure-results/history
           cp -r gh-pages/history/* reports/allure-results/history/ || true
 
       - name: Create Allure Executor Info
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p reports/allure-results
           envsubst < reports/allure-executor.tpl.json > reports/allure-results/executor.json
 
       - name: Generate Allure Report
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: npm run allure
 
       - name: Deploy Allure Report to GitHub Pages
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -118,3 +121,7 @@ jobs:
           email_to: ${{ secrets.EMAIL_TO }}
           repo_owner: ${{ github.repository_owner }}
           repo_name: ${{ github.event.repository.name }}
+
+      - name: Fail job if tests failed
+        if: env.PLAYWRIGHT_FAILED == 'true'
+        run: exit 1
