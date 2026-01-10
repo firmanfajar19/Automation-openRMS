@@ -1,5 +1,5 @@
 name: "Extract Allure Summary & Send Email"
-description: "Parse Allure summary, generate dynamic chart, and send professional email report"
+description: "Parse Allure summary, generate chart, and send email report"
 
 inputs:
   smtp_host:
@@ -20,7 +20,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Extract Allure summary & Generate Chart URL
+    - name: Extract Allure summary & Generate Chart
       shell: bash
       run: |
         node <<'EOF'
@@ -36,19 +36,16 @@ runs:
         const stat = summary.statistic;
         const durationMs = summary.time.duration || 0;
 
-        // Calculate Duration
         const totalSeconds = Math.floor(durationMs / 1000);
         const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
         const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
         const s = String(totalSeconds % 60).padStart(2, '0');
         const duration = `${h}:${m}:${s}`;
 
-        // Calculate Pass Rate
         const passRate = stat.total > 0
           ? ((stat.passed / stat.total) * 100).toFixed(1)
           : '0.0';
 
-        // QuickChart Configuration (Professional Theme)
         const chartConfig = {
           type: 'doughnut',
           data: {
@@ -97,7 +94,7 @@ runs:
         password: ${{ inputs.smtp_pass }}
         to: ${{ inputs.email_to }}
         from: "QA Team <${{ inputs.smtp_user }}>"
-        subject: "🚀 Automation Test Report: ${{ inputs.repo_name }} | Build #${{ github.run_number }} [${{ env.PASS_RATE }}%]"
+        subject: "🚀 Automation Test Report: ${{ inputs.repo_name }} | Build #${{ github.run_number }} [Success Rate: ${{ env.PASS_RATE }}%]"
         html_body: |
           <!DOCTYPE html>
           <html>

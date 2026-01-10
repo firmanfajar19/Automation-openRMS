@@ -18,6 +18,7 @@ jobs:
 
     env:
       ENV: ${{ secrets.PROD_ENV }}
+      PLAYWRIGHT_FAILED: 'false'
 
     steps:
       - name: Checkout repository
