@@ -125,8 +125,27 @@ runs:
                       </tr>
 
                       <tr>
-                        <td align="center" style="padding: 40px 40px 20px 40px;">
-                          <img src="${{ env.CHART_URL }}" width="200" height="200" alt="Success Rate Chart">
+                        <td align="center" style="padding: 40px 40px 20px 40px">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td
+                                style="
+                                  background-color: #f9fafb;
+                                  padding: 16px;
+                                  border-radius: 16px;
+                                  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+                                "
+                              >
+                                <img
+                                  src="${{ env.CHART_URL }}"
+                                  width="200"
+                                  height="200"
+                                  alt="Success Rate Chart"
+                                  style="display: block; border-radius: 50%"
+                                />
+                              </td>
+                            </tr>
+                          </table>
                         </td>
                       </tr>
 
