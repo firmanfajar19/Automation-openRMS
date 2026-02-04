@@ -1,56 +1,69 @@
-name: Automation Tests - Production
+name: MonitPay Automation Tests - Production
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pages: write
+  id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+  
 jobs:
   test:
-    runs-on: ubuntu-latest
+    env: 
+      PROD_ENV: ${{ secrets.PROD_ENV }}
     timeout-minutes: 60
-    environment: PROD_ENV
-
-    env:
-      ENV: ${{ secrets.PROD_ENV }}
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          
+
       - name: Get installed Playwright version
         id: playwright-version
-        run: echo "version=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_OUTPUT
-        
+        run: |
+          version=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Cache playwright binaries
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: playwright-cache
         with:
           path: |
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}  
-          
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Install playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        
+
       - name: Create .env file
-        run: printf '%s' "$ENV" > .env
+        run: |
+          printf '%s' "$PROD_ENV" > .env
+
+      - name: Verify env loaded
+        run: cat .env | sed 's/=.*/=***/'
+
+      - name: Restore test history
+        uses: actions/cache@v4
+        with:
+          path: test-history.json
+          key: test-history-${{ github.ref }}
+          restore-keys: |
+            test-history-
 
       - name: Run changed tests (Pull Request)
         if: github.event_name == 'pull_request'
@@ -59,64 +72,67 @@ jobs:
           npx playwright test --only-changed=origin/${{ github.base_ref }}
         continue-on-error: true
 
-      - name: Run full playwright tests
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: npm run test
+      - name: Run tests production
+        if: github.event_name != 'pull_request'
+        run: npm run prod
         continue-on-error: true
 
-      - name: Install allure CLI
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: npm install -g allure-commandline
-
-      - name: Restore Allure history
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v5
-        with:
-          ref: gh-pages
-          path: gh-pages
-        continue-on-error: true
-
-      - name: Copy Allure history to allure-results
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: |
-          mkdir -p reports/allure-results/history
-          cp -r gh-pages/history/* reports/allure-results/history/ || true
-
-      - name: Create allure executor info
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: |
-          mkdir -p reports/allure-results
-          envsubst < reports/allure-executor.tpl.json > reports/allure-results/executor.json
-
-      - name: Generate allure report
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: npm run allure
-
-      - name: Deploy allure report to GitHub Pages
-        if: always() && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: reports/allure-report
-          publish_branch: gh-pages
-          force_orphan: true
-
-      - name: Upload allure report artifact
+      - name: Save test history
+        uses: actions/cache/save@v4
         if: always()
-        uses: actions/upload-artifact@v5
         with:
-          name: ${{ github.workflow }}_Build#${{ github.run_number }}
-          path: reports/allure-report
+          path: test-history.json
+          key: test-history-${{ github.ref }}-${{ github.run_id }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
           retention-days: 30
 
-      - name: Send allure summary to email
-        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && always()
-        uses: ./.github/actions/allure-summary
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          smtp_host: ${{ secrets.SMTP_HOST }}
-          smtp_port: ${{ secrets.SMTP_PORT }}
-          smtp_user: ${{ secrets.SMTP_USER }}
-          smtp_pass: ${{ secrets.SMTP_PASS }}
-          email_to: ${{ secrets.EMAIL_TO }}
-          repo_owner: ${{ github.repository_owner }}
-          repo_name: ${{ github.event.repository.name }}
+          name: smart-report
+          path: smart-report.html
+          retention-days: 30
+
+  deploy-pages:
+    name: Deploy smart-report to GitHub Pages
+    needs: test
+    if: always() && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download smart-report artifact (if available)
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: smart-report
+          path: artifacts/smart-report
+
+      - name: Prepare Pages site
+        run: |
+          rm -rf site
+          mkdir -p site
+          if [ -f artifacts/smart-report/smart-report.html ]; then
+            cp artifacts/smart-report/smart-report.html site/index.html
+          else
+            cp smart-report.html site/index.html
+          fi
+          touch site/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Write Pages URL to summary
+        run: echo "Deployed to ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
+        

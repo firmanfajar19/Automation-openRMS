@@ -16,6 +16,7 @@
     "@types/node": "^25.0.2",
     "allure-playwright": "^3.4.3",
     "dotenv": "^17.2.3",
-    "playwright-bdd": "^8.4.2"
+    "playwright-bdd": "^8.4.2",
+    "playwright-smart-reporter": "^1.0.7"
   }
 }

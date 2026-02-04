@@ -12,3 +12,5 @@ node_modules/
 reports/allure-results
 reports/allure-report
 
+smart-report.html
+test-history.json
