@@ -42,7 +42,11 @@ export default defineConfig({
       },
     ],
     ['list'],
-    ['@reportportal/agent-js-playwright', RPConfig]
+    ['@reportportal/agent-js-playwright', RPConfig],
+    ['playwright-smart-reporter', {
+      outputFile: 'smart-report.html',
+      historyFile: 'test-history.json',
+    }]
   ],
   use: {
     baseURL: process.env.BASE_URL,
