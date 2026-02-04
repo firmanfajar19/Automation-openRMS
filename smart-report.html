@@ -6254,7 +6254,7 @@
             </button>
           </div>
         </div>
-        <div class="timestamp">2/4/2026, 11:38:26 AM</div>
+        <div class="timestamp">2/4/2026, 11:42:44 AM</div>
       </div>
     </header>
 
@@ -6314,6 +6314,11 @@
             <span class="nav-label">Trends</span>
           </button>
           
+          <button class="nav-item" data-view="comparison" onclick="switchView('comparison')" role="tab" aria-selected="false" aria-controls="view-comparison">
+            <span class="nav-icon" aria-hidden="true">⚖️</span>
+            <span class="nav-label">Comparison</span>
+          </button>
+          
           
           <button class="nav-item" data-view="gallery" onclick="switchView('gallery')" role="tab" aria-selected="false" aria-controls="view-gallery">
             <span class="nav-icon" aria-hidden="true">🖼️</span>
@@ -6340,7 +6345,7 @@
           <div class="filter-chips" role="group" aria-labelledby="health-filter-label">
             <button class="filter-chip" data-filter="flaky" data-group="health" onclick="toggleFilter(this)" aria-pressed="false">Flaky (0)</button>
             <button class="filter-chip" data-filter="slow" data-group="health" onclick="toggleFilter(this)" aria-pressed="false">Slow (0)</button>
-            <button class="filter-chip" data-filter="new" data-group="health" onclick="toggleFilter(this)" aria-pressed="false">New (3)</button>
+            <button class="filter-chip" data-filter="new" data-group="health" onclick="toggleFilter(this)" aria-pressed="false">New (0)</button>
           </div>
         </div>
         <div class="filter-group" data-group="grade" role="group" aria-label="Grade filters">
@@ -6392,7 +6397,7 @@
       <div class="sidebar-footer">
         <div class="run-duration">
           <span class="duration-icon">⏱️</span>
-          <span class="duration-value">22.7s</span>
+          <span class="duration-value">16.4s</span>
         </div>
       </div>
     </aside>
@@ -6442,8 +6447,8 @@
 
       <div class="hero-stat-card">
         <div class="hero-stat-main">
-          <div class="hero-stat-value">22.7s</div>
-          
+          <div class="hero-stat-value">16.4s</div>
+          <div class="hero-stat-delta positive">↓28%</div>
         </div>
         <div class="hero-stat-label">Duration</div>
         <div class="hero-stat-detail">Total run time</div>
@@ -6488,12 +6493,12 @@
       </div>
       <div class="insights-grid">
         
-          <div class="insight-card" onclick="selectTest('_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_REGISTERED_EMAIL_and_PASSWORD_INVALID'); switchView('tests');">
+          <div class="insight-card" onclick="selectTest('_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_UNREGISTERED_EMAIL_and_REGISTERED_PASSWORD'); switchView('tests');">
             <div class="insight-icon">🐢</div>
             <div class="insight-content">
               <div class="insight-label">Slowest Test</div>
-              <div class="insight-title">[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID</div>
-              <div class="insight-value">10.2s</div>
+              <div class="insight-title">[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD</div>
+              <div class="insight-value">5.3s</div>
             </div>
           </div>
         
@@ -6514,7 +6519,11 @@
           <div class="insight-content">
             <div class="insight-label">Pass Rate Trend</div>
             <div class="mini-sparkline">
-              <span class="no-data">No history available</span>
+              
+                <div class="spark-col" title="Run 1: 100%">
+                  <div class="spark-bar" style="height: 100%"></div>
+                </div>
+              
             </div>
           </div>
         </div>
@@ -6560,7 +6569,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6584,10 +6593,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.4s</span>
+          <span class="test-item-duration">5.3s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6599,7 +6608,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6623,10 +6632,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">10.2s</span>
+          <span class="test-item-duration">4.7s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6638,7 +6647,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6662,10 +6671,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.6s</span>
+          <span class="test-item-duration">5.1s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6691,7 +6700,7 @@
              data-status="passed"
              data-flaky="false"
              data-slow="false"
-             data-new="true"
+             data-new="false"
              data-new-failure="false"
              data-regression="false"
              data-fixed="false"
@@ -6709,10 +6718,10 @@
             
             
             <span class="stability-badge grade-a">A</span>
-            <span class="test-item-duration">5.4s</span>
+            <span class="test-item-duration">5.3s</span>
             
             
-            <span class="test-item-badge new">New</span>
+            
           </div>
         </div>
       
@@ -6723,7 +6732,7 @@
              data-status="passed"
              data-flaky="false"
              data-slow="false"
-             data-new="true"
+             data-new="false"
              data-new-failure="false"
              data-regression="false"
              data-fixed="false"
@@ -6741,10 +6750,10 @@
             
             
             <span class="stability-badge grade-a">A</span>
-            <span class="test-item-duration">10.2s</span>
+            <span class="test-item-duration">4.7s</span>
             
             
-            <span class="test-item-badge new">New</span>
+            
           </div>
         </div>
       
@@ -6755,7 +6764,7 @@
              data-status="passed"
              data-flaky="false"
              data-slow="false"
-             data-new="true"
+             data-new="false"
              data-new-failure="false"
              data-regression="false"
              data-fixed="false"
@@ -6773,10 +6782,10 @@
             
             
             <span class="stability-badge grade-a">A</span>
-            <span class="test-item-duration">5.6s</span>
+            <span class="test-item-duration">5.1s</span>
             
             
-            <span class="test-item-badge new">New</span>
+            
           </div>
         </div>
       
@@ -6807,7 +6816,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6831,10 +6840,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.4s</span>
+          <span class="test-item-duration">5.3s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6846,7 +6855,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6870,10 +6879,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">10.2s</span>
+          <span class="test-item-duration">4.7s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6885,7 +6894,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6909,10 +6918,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.6s</span>
+          <span class="test-item-duration">5.1s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6942,7 +6951,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -6966,10 +6975,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.4s</span>
+          <span class="test-item-duration">5.3s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -6981,7 +6990,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -7005,10 +7014,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">10.2s</span>
+          <span class="test-item-duration">4.7s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -7020,7 +7029,7 @@
            data-status="passed"
            data-flaky="false"
            data-slow="false"
-           data-new="true"
+           data-new="false"
            data-new-failure="false"
            data-regression="false"
            data-fixed="false"
@@ -7044,10 +7053,10 @@
           
           
           <span class="stability-badge grade-a">A</span>
-          <span class="test-item-duration">5.6s</span>
+          <span class="test-item-duration">5.1s</span>
           
           
-          <span class="test-item-badge new">New</span>
+          
         </div>
       </div>
     
@@ -7075,22 +7084,410 @@
         </div>
         <div class="trends-content">
           
-      <div class="trend-section">
-        <div class="trend-header">
+    <div id="trends-section" class="trend-section collapsible-section">
+      <div class="trend-header" onclick="toggleSection('trends-section')">
+        <div style="display: flex; align-items: center;">
           <div class="trend-title">📊 Test Run Trends</div>
-          <div class="trend-subtitle">Collecting data...</div>
+          <span class="section-toggle">▼</span>
         </div>
-        <div class="trend-message">
-          <p>📈 <strong>Trends will appear after 2+ test runs.</strong></p>
-          <p>Run your tests again to start seeing historical trends, pass rates, and performance patterns.</p>
-          <p style="font-size: 0.85em; opacity: 0.7;">Make sure your <code>historyFile</code> option points to a persistent location.</p>
+        <div class="trend-subtitle">Last 2 runs</div>
+      </div>
+
+      <!-- All Charts in Grid -->
+      <div class="section-content all-charts-grid">
+        <div class="line-chart-container">
+          <h4 class="chart-title">✅ Pass Rate</h4>
+          
+      <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto; overflow: visible;" class="chart-svg">
+        <!-- Y-axis label -->
+        <text x="12" y="60" fill="var(--text-secondary)" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90, 12, 60)">Pass Rate (%)</text>
+
+        <!-- Grid lines and y-axis labels -->
+        
+        <line x1="50" y1="90.0" x2="380" y2="90.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="94.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="76.0" x2="380" y2="76.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="80.0" fill="var(--text-muted)" font-size="10" text-anchor="end">20</text>
+      
+        <line x1="50" y1="62.0" x2="380" y2="62.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="66.0" fill="var(--text-muted)" font-size="10" text-anchor="end">40</text>
+      
+        <line x1="50" y1="48.0" x2="380" y2="48.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="52.0" fill="var(--text-muted)" font-size="10" text-anchor="end">60</text>
+      
+        <line x1="50" y1="34.0" x2="380" y2="34.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="38.0" fill="var(--text-muted)" font-size="10" text-anchor="end">80</text>
+      
+        <line x1="50" y1="20.0" x2="380" y2="20.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="24.0" fill="var(--text-muted)" font-size="10" text-anchor="end">100</text>
+      
+
+        <!-- Bars -->
+        
+        <g class="bar-group clickable" data-tooltip="Feb 4: 100%" data-runid="run-1770179884069" onclick="loadHistoricalRun('run-1770179884069', 'Feb 4')">
+          <rect
+            x="112.5"
+            y="20.0"
+            width="40.0"
+            height="70.0"
+            fill="#22c55e"
+            opacity="0.85"
+            stroke="none"
+            stroke-width="0"
+            rx="3"
+            class="chart-bar chart-bar-clickable"
+            style="cursor: pointer;"
+          />
+        </g>
+      
+        <g class="bar-group" data-tooltip="Current: 100%" >
+          <rect
+            x="277.5"
+            y="20.0"
+            width="40.0"
+            height="70.0"
+            fill="#22c55e"
+            opacity="1"
+            stroke="var(--text-primary)"
+            stroke-width="2"
+            rx="3"
+            class="chart-bar"
+            style=""
+          />
+        </g>
+      
+
+        <!-- X-axis labels -->
+        <text x="132.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Feb 4</text><text x="297.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Now</text>
+
+        <!-- X-axis line -->
+        <line x1="50" y1="90" x2="380" y2="90" stroke="var(--border-subtle)" stroke-width="1"/>
+      </svg>
+    
+        </div>
+        <div class="line-chart-container">
+          <h4 class="chart-title">⏱️ Duration</h4>
+          
+      <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto; overflow: visible;" class="chart-svg">
+        <!-- Y-axis label -->
+        <text x="12" y="60" fill="var(--text-secondary)" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90, 12, 60)">Duration (s)</text>
+
+        <!-- Grid lines and y-axis labels -->
+        
+        <line x1="50" y1="90.0" x2="380" y2="90.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="94.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="76.0" x2="380" y2="76.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="80.0" fill="var(--text-muted)" font-size="10" text-anchor="end">5</text>
+      
+        <line x1="50" y1="62.0" x2="380" y2="62.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="66.0" fill="var(--text-muted)" font-size="10" text-anchor="end">9</text>
+      
+        <line x1="50" y1="48.0" x2="380" y2="48.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="52.0" fill="var(--text-muted)" font-size="10" text-anchor="end">14</text>
+      
+        <line x1="50" y1="34.0" x2="380" y2="34.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="38.0" fill="var(--text-muted)" font-size="10" text-anchor="end">18</text>
+      
+        <line x1="50" y1="20.0" x2="380" y2="20.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="24.0" fill="var(--text-muted)" font-size="10" text-anchor="end">23</text>
+      
+
+        <!-- Bars -->
+        
+        <g class="bar-group clickable" data-tooltip="Feb 4: 23s" data-runid="run-1770179884069" onclick="loadHistoricalRun('run-1770179884069', 'Feb 4')">
+          <rect
+            x="112.5"
+            y="20.0"
+            width="40.0"
+            height="70.0"
+            fill="#a855f7"
+            opacity="0.85"
+            stroke="none"
+            stroke-width="0"
+            rx="3"
+            class="chart-bar chart-bar-clickable"
+            style="cursor: pointer;"
+          />
+        </g>
+      
+        <g class="bar-group" data-tooltip="Current: 16s" >
+          <rect
+            x="277.5"
+            y="41.3"
+            width="40.0"
+            height="48.7"
+            fill="#a855f7"
+            opacity="1"
+            stroke="var(--text-primary)"
+            stroke-width="2"
+            rx="3"
+            class="chart-bar"
+            style=""
+          />
+        </g>
+      
+
+        <!-- X-axis labels -->
+        <text x="132.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Feb 4</text><text x="297.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Now</text>
+
+        <!-- X-axis line -->
+        <line x1="50" y1="90" x2="380" y2="90" stroke="var(--border-subtle)" stroke-width="1"/>
+      </svg>
+    
+        </div>
+        <div class="line-chart-container">
+          <h4 class="chart-title">🟡 Flaky Tests</h4>
+          
+      <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto; overflow: visible;" class="chart-svg">
+        <!-- Y-axis label -->
+        <text x="12" y="60" fill="var(--text-secondary)" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90, 12, 60)">Flaky Tests</text>
+
+        <!-- Grid lines and y-axis labels -->
+        
+        <line x1="50" y1="90.0" x2="380" y2="90.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="94.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="76.0" x2="380" y2="76.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="80.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="62.0" x2="380" y2="62.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="66.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="48.0" x2="380" y2="48.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="52.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+        <line x1="50" y1="34.0" x2="380" y2="34.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="38.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+        <line x1="50" y1="20.0" x2="380" y2="20.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="24.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+
+        <!-- Bars -->
+        
+        <g class="bar-group clickable" data-tooltip="Feb 4: 0" data-runid="run-1770179884069" onclick="loadHistoricalRun('run-1770179884069', 'Feb 4')">
+          <rect
+            x="112.5"
+            y="90.0"
+            width="40.0"
+            height="0.0"
+            fill="#eab308"
+            opacity="0.85"
+            stroke="none"
+            stroke-width="0"
+            rx="3"
+            class="chart-bar chart-bar-clickable"
+            style="cursor: pointer;"
+          />
+        </g>
+      
+        <g class="bar-group" data-tooltip="Current: 0" >
+          <rect
+            x="277.5"
+            y="90.0"
+            width="40.0"
+            height="0.0"
+            fill="#eab308"
+            opacity="1"
+            stroke="var(--text-primary)"
+            stroke-width="2"
+            rx="3"
+            class="chart-bar"
+            style=""
+          />
+        </g>
+      
+
+        <!-- X-axis labels -->
+        <text x="132.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Feb 4</text><text x="297.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Now</text>
+
+        <!-- X-axis line -->
+        <line x1="50" y1="90" x2="380" y2="90" stroke="var(--border-subtle)" stroke-width="1"/>
+      </svg>
+    
+        </div>
+        <div class="line-chart-container">
+          <h4 class="chart-title">🐢 Slow Tests</h4>
+          
+      <svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto; overflow: visible;" class="chart-svg">
+        <!-- Y-axis label -->
+        <text x="12" y="60" fill="var(--text-secondary)" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90, 12, 60)">Slow Tests</text>
+
+        <!-- Grid lines and y-axis labels -->
+        
+        <line x1="50" y1="90.0" x2="380" y2="90.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="94.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="76.0" x2="380" y2="76.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="80.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="62.0" x2="380" y2="62.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="66.0" fill="var(--text-muted)" font-size="10" text-anchor="end">0</text>
+      
+        <line x1="50" y1="48.0" x2="380" y2="48.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="52.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+        <line x1="50" y1="34.0" x2="380" y2="34.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="38.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+        <line x1="50" y1="20.0" x2="380" y2="20.0" stroke="var(--border-subtle)" stroke-width="1" opacity="0.2"/>
+        <text x="42" y="24.0" fill="var(--text-muted)" font-size="10" text-anchor="end">1</text>
+      
+
+        <!-- Bars -->
+        
+        <g class="bar-group clickable" data-tooltip="Feb 4: 0" data-runid="run-1770179884069" onclick="loadHistoricalRun('run-1770179884069', 'Feb 4')">
+          <rect
+            x="112.5"
+            y="90.0"
+            width="40.0"
+            height="0.0"
+            fill="#f97316"
+            opacity="0.85"
+            stroke="none"
+            stroke-width="0"
+            rx="3"
+            class="chart-bar chart-bar-clickable"
+            style="cursor: pointer;"
+          />
+        </g>
+      
+        <g class="bar-group" data-tooltip="Current: 0" >
+          <rect
+            x="277.5"
+            y="90.0"
+            width="40.0"
+            height="0.0"
+            fill="#f97316"
+            opacity="1"
+            stroke="var(--text-primary)"
+            stroke-width="2"
+            rx="3"
+            class="chart-bar"
+            style=""
+          />
+        </g>
+      
+
+        <!-- X-axis labels -->
+        <text x="132.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Feb 4</text><text x="297.5" y="112" fill="var(--text-muted)" font-size="9" text-anchor="middle">Now</text>
+
+        <!-- X-axis line -->
+        <line x1="50" y1="90" x2="380" y2="90" stroke="var(--border-subtle)" stroke-width="1"/>
+      </svg>
+    
         </div>
       </div>
-    
+    </div>
+  
         </div>
       </section>
 
       <!-- Comparison View -->
+      
+      <section class="view-panel" id="view-comparison" role="tabpanel" aria-label="Comparison" style="display: none;">
+        <div class="view-header">
+          <h2 class="view-title">Run Comparison</h2>
+        </div>
+        <div class="comparison-content">
+          
+    <div class="comparison-section">
+      <div class="comparison-header">
+        <div class="comparison-title">🔄 Run Comparison</div>
+        <div class="comparison-subtitle">
+          Baseline: 2/4/2026 vs Current
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="comparison-summary">
+        <div class="comparison-card">
+          <div class="comparison-card-label">Pass Rate</div>
+          <div class="comparison-card-value positive">
+            100%
+            <span class="comparison-delta">
+              ↑ 0.0%
+            </span>
+          </div>
+        </div>
+
+        <div class="comparison-card">
+          <div class="comparison-card-label">Duration</div>
+          <div class="comparison-card-value positive">
+            16.4s
+            <span class="comparison-delta">
+              ↓ -27.8%
+            </span>
+          </div>
+        </div>
+
+        <div class="comparison-card">
+          <div class="comparison-card-label">Tests</div>
+          <div class="comparison-card-value">
+            3
+            <span class="comparison-delta neutral">
+              +0
+            </span>
+          </div>
+        </div>
+
+        <div class="comparison-card">
+          <div class="comparison-card-label">Flaky</div>
+          <div class="comparison-card-value positive">
+            0
+            <span class="comparison-delta">
+              +0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Change Details -->
+      <div class="comparison-details">
+        
+        
+        
+        
+    <div class="comparison-section-wrapper">
+      <div class="comparison-section-header improvement-section" onclick="toggleComparisonSection('__Performance_Improvements')">
+        <span class="expand-icon">▼</span>
+        <span class="comparison-section-title">⚡ Performance Improvements</span>
+        <span class="comparison-section-count">1</span>
+      </div>
+      <div id="section-__Performance_Improvements" class="comparison-section-content">
+        
+    <div class="comparison-item" id="comparison-_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_REGISTERED_EMAIL_and_PASSWORD_INVALID">
+      <div class="comparison-item-header">
+        <div class="comparison-item-status passed"></div>
+        <div class="comparison-item-info">
+          <div class="comparison-item-title">[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID</div>
+          <div class="comparison-item-file">.features-gen/web_chrome/tests/web/features/01_login.feature.spec.js</div>
+        </div>
+        <div class="comparison-item-duration-badge">4.7s</div>
+      </div>
+      
+      <div class="comparison-item-details">
+        <span class="comparison-item-duration">
+          10.2s → 4.7s
+        </span>
+        <span class="comparison-item-change positive">
+          ↓ 54.1%
+        </span>
+      </div>
+    
+    </div>
+  
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+        </div>
+      </section>
       
 
       <!-- Gallery View -->
@@ -7299,7 +7696,7 @@
          data-flaky="false"
          data-unstable="false"
          data-slow="false"
-         data-new="true"
+         data-new="false"
          data-grade="A" data-tags="@web,@login-web,@login,@regression,@login-web02,@login-failed" data-suite="[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-suites=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js,Login page openRMS on Desktop Website,[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-browser="chromium" data-project="Desktop Chrome">
       <div class="test-card-header" onclick="toggleDetails('_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_UNREGISTERED_EMAIL_and_REGISTERED_PASSWORD', event)">
         <div class="test-card-left">
@@ -7318,14 +7715,44 @@
           </div>
         </div>
         <div class="test-card-right">
-          <span class="test-duration">5.4s</span>
-          <span class="badge stability-high" title="Stability Score: 100/100 (Flakiness: 100, Performance: 100, Reliability: 100)">A (100)</span>
-          <span class="badge new">New</span>
-          <span class="trend stable">→ Baseline</span>
+          <span class="test-duration">5.3s</span>
+          <span class="badge stability-high" title="Stability Score: 97/100 (Flakiness: 100, Performance: 90, Reliability: 100)">A (97)</span>
+          <span class="badge stable">Stable</span>
+          <span class="trend stable">→ Stable</span>
           <span class="expand-icon">▶</span>
         </div>
       </div>
-      <div class="test-details"><div class="details-body" data-details-body>
+      <div class="test-details">
+	      <div class="detail-section">
+	        <div class="detail-label"><span class="icon">📊</span> Run History (Last 1 runs)</div>
+	        <div class="history-section">
+	          <div class="history-column">
+	            <div class="history-label">Pass/Fail</div>
+	            <div class="sparkline-block">
+	              <div class="sparkline">
+	                <div class="spark-dot history-dot pass" data-testid=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD" data-ts="2/4/2026, 11:38:26 AM" title="Run 1: Passed • 2/4/2026, 11:38:26 AM"></div>
+	                <div class="spark-dot pass current" title="Current: Passed"></div>
+	              </div>
+	              <div class="history-stats passfail">
+	                <span class="history-stat">Pass rate: <span>100%</span></span>
+	                <button type="button" class="history-back-btn" data-action="history-back" style="display:none">Back to current</button>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="history-column">
+	            <div class="history-label">Duration Trend</div>
+	            <div class="duration-chart">
+	              <div class="duration-bar history-duration" style="height: 28.0px" title="Run 1: 5.4s"></div>
+              <div class="duration-bar current " style="height: 27.4px" title="Current: 5.3s"></div>
+            </div>
+            <div class="history-stats">
+              <span class="history-stat">Avg: <span data-role="avg-duration">5.4s</span></span>
+              <span class="history-stat">Current: <span data-role="current-duration">5.3s</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="details-body" data-details-body>
       <div class="detail-section">
         <div class="detail-label"><span class="icon">⏱</span> Step Timings</div>
         <div class="steps-container">
@@ -7333,9 +7760,9 @@
             <div class="step-row ">
               <span class="step-title" title="Launch browser">Launch browser</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 26.0%"></div>
+                <div class="step-bar" style="width: 26.4%"></div>
               </div>
-              <span class="step-duration">1.1s</span>
+              <span class="step-duration">890ms</span>
               
             </div>
           
@@ -7351,9 +7778,9 @@
             <div class="step-row ">
               <span class="step-title" title="Create page">Create page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 5.4%"></div>
+                <div class="step-bar" style="width: 6.5%"></div>
               </div>
-              <span class="step-duration">218ms</span>
+              <span class="step-duration">221ms</span>
               
             </div>
           
@@ -7362,7 +7789,7 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">4.0s</span>
+              <span class="step-duration">3.4s</span>
               <span class="slowest-badge">Slowest</span>
             </div>
           
@@ -7371,16 +7798,16 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">4.0s</span>
+              <span class="step-duration">3.4s</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User See Login Page">Then [Desktop] User See Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 1.6%"></div>
+                <div class="step-bar" style="width: 2.3%"></div>
               </div>
-              <span class="step-duration">64ms</span>
+              <span class="step-duration">78ms</span>
               
             </div>
           
@@ -7389,32 +7816,32 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 0.3%"></div>
               </div>
-              <span class="step-duration">13ms</span>
+              <span class="step-duration">9ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;unregistered@example.com&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })">Fill &quot;unregistered@example.com&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.3%"></div>
+                <div class="step-bar" style="width: 0.2%"></div>
               </div>
-              <span class="step-duration">12ms</span>
+              <span class="step-duration">8ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Input &quot;REGISTERED_PASSWORD&quot; in Password Field">And [Desktop] User Input &quot;REGISTERED_PASSWORD&quot; in Password Field</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.8%"></div>
+                <div class="step-bar" style="width: 1.0%"></div>
               </div>
-              <span class="step-duration">31ms</span>
+              <span class="step-duration">33ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;Admin123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })">Fill &quot;Admin123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.8%"></div>
+                <div class="step-bar" style="width: 0.9%"></div>
               </div>
               <span class="step-duration">31ms</span>
               
@@ -7423,58 +7850,62 @@
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session">And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 0.8%"></div>
               </div>
-              <span class="step-duration">30ms</span>
+              <span class="step-duration">27ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByText(&#039;Inpatient Ward&#039;)">Click getByText(&#039;Inpatient Ward&#039;)</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 0.8%"></div>
               </div>
-              <span class="step-duration">30ms</span>
+              <span class="step-duration">26ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Click Login Button">And [Desktop] User Click Login Button</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 15.9%"></div>
+                <div class="step-bar" style="width: 19.4%"></div>
               </div>
-              <span class="step-duration">644ms</span>
+              <span class="step-duration">655ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })">Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 15.9%"></div>
+                <div class="step-bar" style="width: 19.4%"></div>
               </div>
-              <span class="step-duration">644ms</span>
+              <span class="step-duration">655ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page">Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 7.3%"></div>
+                <div class="step-bar" style="width: 24.0%"></div>
               </div>
-              <span class="step-duration">295ms</span>
+              <span class="step-duration">812ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Close context">Close context</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.9%"></div>
+                <div class="step-bar" style="width: 1.0%"></div>
               </div>
-              <span class="step-duration">37ms</span>
+              <span class="step-duration">35ms</span>
               
             </div>
           
         </div>
+      </div>
+    
+      <div class="duration-compare">
+        Average: 5.4s → Current: 5.3s
       </div>
     </div></div>
     </div>
@@ -7485,7 +7916,7 @@
          data-flaky="false"
          data-unstable="false"
          data-slow="false"
-         data-new="true"
+         data-new="false"
          data-grade="A" data-tags="@web,@login-web,@login,@regression,@login-web02,@login-failed" data-suite="[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-suites=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js,Login page openRMS on Desktop Website,[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-browser="chromium" data-project="Desktop Chrome">
       <div class="test-card-header" onclick="toggleDetails('_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_REGISTERED_EMAIL_and_PASSWORD_INVALID', event)">
         <div class="test-card-left">
@@ -7504,14 +7935,44 @@
           </div>
         </div>
         <div class="test-card-right">
-          <span class="test-duration">10.2s</span>
+          <span class="test-duration">4.7s</span>
           <span class="badge stability-high" title="Stability Score: 100/100 (Flakiness: 100, Performance: 100, Reliability: 100)">A (100)</span>
-          <span class="badge new">New</span>
-          <span class="trend stable">→ Baseline</span>
+          <span class="badge stable">Stable</span>
+          <span class="trend faster">↓ 54% faster</span>
           <span class="expand-icon">▶</span>
         </div>
       </div>
-      <div class="test-details"><div class="details-body" data-details-body>
+      <div class="test-details">
+	      <div class="detail-section">
+	        <div class="detail-label"><span class="icon">📊</span> Run History (Last 1 runs)</div>
+	        <div class="history-section">
+	          <div class="history-column">
+	            <div class="history-label">Pass/Fail</div>
+	            <div class="sparkline-block">
+	              <div class="sparkline">
+	                <div class="spark-dot history-dot pass" data-testid=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID" data-ts="2/4/2026, 11:38:26 AM" title="Run 1: Passed • 2/4/2026, 11:38:26 AM"></div>
+	                <div class="spark-dot pass current" title="Current: Passed"></div>
+	              </div>
+	              <div class="history-stats passfail">
+	                <span class="history-stat">Pass rate: <span>100%</span></span>
+	                <button type="button" class="history-back-btn" data-action="history-back" style="display:none">Back to current</button>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="history-column">
+	            <div class="history-label">Duration Trend</div>
+	            <div class="duration-chart">
+	              <div class="duration-bar history-duration" style="height: 28.0px" title="Run 1: 10.2s"></div>
+              <div class="duration-bar current faster" style="height: 12.9px" title="Current: 4.7s"></div>
+            </div>
+            <div class="history-stats">
+              <span class="history-stat">Avg: <span data-role="avg-duration">10.2s</span></span>
+              <span class="history-stat">Current: <span data-role="current-duration">4.7s</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="details-body" data-details-body>
       <div class="detail-section">
         <div class="detail-label"><span class="icon">⏱</span> Step Timings</div>
         <div class="steps-container">
@@ -7519,18 +7980,18 @@
             <div class="step-row ">
               <span class="step-title" title="Create context">Create context</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.0%"></div>
+                <div class="step-bar" style="width: 0.1%"></div>
               </div>
-              <span class="step-duration">1ms</span>
+              <span class="step-duration">4ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Create page">Create page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 1.5%"></div>
               </div>
-              <span class="step-duration">47ms</span>
+              <span class="step-duration">51ms</span>
               
             </div>
           
@@ -7539,7 +8000,7 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">6.8s</span>
+              <span class="step-duration">3.5s</span>
               <span class="slowest-badge">Slowest</span>
             </div>
           
@@ -7548,110 +8009,114 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">6.8s</span>
+              <span class="step-duration">3.5s</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User See Login Page">Then [Desktop] User See Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.4%"></div>
+                <div class="step-bar" style="width: 1.5%"></div>
               </div>
-              <span class="step-duration">24ms</span>
+              <span class="step-duration">52ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="When [Desktop] User Input &quot;REGISTERED_EMAIL&quot; in Email Field">When [Desktop] User Input &quot;REGISTERED_EMAIL&quot; in Email Field</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.0%"></div>
+                <div class="step-bar" style="width: 0.3%"></div>
               </div>
-              <span class="step-duration">3ms</span>
+              <span class="step-duration">12ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;admin&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })">Fill &quot;admin&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.0%"></div>
+                <div class="step-bar" style="width: 0.3%"></div>
               </div>
-              <span class="step-duration">3ms</span>
+              <span class="step-duration">10ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Input &quot;PASSWORD_INVALID&quot; in Password Field">And [Desktop] User Input &quot;PASSWORD_INVALID&quot; in Password Field</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.5%"></div>
+                <div class="step-bar" style="width: 1.3%"></div>
               </div>
-              <span class="step-duration">31ms</span>
+              <span class="step-duration">47ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;InvalidPassword123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })">Fill &quot;InvalidPassword123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.5%"></div>
+                <div class="step-bar" style="width: 1.3%"></div>
               </div>
-              <span class="step-duration">31ms</span>
+              <span class="step-duration">46ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session">And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.3%"></div>
+                <div class="step-bar" style="width: 0.8%"></div>
               </div>
-              <span class="step-duration">21ms</span>
+              <span class="step-duration">27ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByText(&#039;Inpatient Ward&#039;)">Click getByText(&#039;Inpatient Ward&#039;)</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.3%"></div>
+                <div class="step-bar" style="width: 0.7%"></div>
               </div>
-              <span class="step-duration">21ms</span>
+              <span class="step-duration">25ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Click Login Button">And [Desktop] User Click Login Button</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 12.9%"></div>
+                <div class="step-bar" style="width: 17.4%"></div>
               </div>
-              <span class="step-duration">883ms</span>
+              <span class="step-duration">611ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })">Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 12.9%"></div>
+                <div class="step-bar" style="width: 17.4%"></div>
               </div>
-              <span class="step-duration">883ms</span>
+              <span class="step-duration">610ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page">Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 11.7%"></div>
+                <div class="step-bar" style="width: 8.6%"></div>
               </div>
-              <span class="step-duration">798ms</span>
+              <span class="step-duration">301ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Close context">Close context</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.4%"></div>
+                <div class="step-bar" style="width: 0.9%"></div>
               </div>
-              <span class="step-duration">28ms</span>
+              <span class="step-duration">32ms</span>
               
             </div>
           
         </div>
+      </div>
+    
+      <div class="duration-compare">
+        Average: 10.2s → Current: 4.7s
       </div>
     </div></div>
     </div>
@@ -7662,7 +8127,7 @@
          data-flaky="false"
          data-unstable="false"
          data-slow="false"
-         data-new="true"
+         data-new="false"
          data-grade="A" data-tags="@web,@login-web,@login,@regression,@login-web02,@login-failed" data-suite="[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-suites=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js,Login page openRMS on Desktop Website,[Desktop] User Failed Login to openRMS with &lt;EMAIL&gt; and &lt;PASSWORD&gt;" data-browser="chromium" data-project="Desktop Chrome">
       <div class="test-card-header" onclick="toggleDetails('_features_gen_web_chrome_tests_web_features_01_login_feature_spec_js___Desktop__User_Failed_Login_to_openRMS_with_INVALID_FORMAT_EMAIL_and_REGISTERED_PASSWORD', event)">
         <div class="test-card-left">
@@ -7681,14 +8146,44 @@
           </div>
         </div>
         <div class="test-card-right">
-          <span class="test-duration">5.6s</span>
-          <span class="badge stability-high" title="Stability Score: 100/100 (Flakiness: 100, Performance: 100, Reliability: 100)">A (100)</span>
-          <span class="badge new">New</span>
-          <span class="trend stable">→ Baseline</span>
+          <span class="test-duration">5.1s</span>
+          <span class="badge stability-high" title="Stability Score: 97/100 (Flakiness: 100, Performance: 90, Reliability: 100)">A (97)</span>
+          <span class="badge stable">Stable</span>
+          <span class="trend stable">→ Stable</span>
           <span class="expand-icon">▶</span>
         </div>
       </div>
-      <div class="test-details"><div class="details-body" data-details-body>
+      <div class="test-details">
+	      <div class="detail-section">
+	        <div class="detail-label"><span class="icon">📊</span> Run History (Last 1 runs)</div>
+	        <div class="history-section">
+	          <div class="history-column">
+	            <div class="history-label">Pass/Fail</div>
+	            <div class="sparkline-block">
+	              <div class="sparkline">
+	                <div class="spark-dot history-dot pass" data-testid=".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD" data-ts="2/4/2026, 11:38:26 AM" title="Run 1: Passed • 2/4/2026, 11:38:26 AM"></div>
+	                <div class="spark-dot pass current" title="Current: Passed"></div>
+	              </div>
+	              <div class="history-stats passfail">
+	                <span class="history-stat">Pass rate: <span>100%</span></span>
+	                <button type="button" class="history-back-btn" data-action="history-back" style="display:none">Back to current</button>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="history-column">
+	            <div class="history-label">Duration Trend</div>
+	            <div class="duration-chart">
+	              <div class="duration-bar history-duration" style="height: 28.0px" title="Run 1: 5.6s"></div>
+              <div class="duration-bar current " style="height: 25.5px" title="Current: 5.1s"></div>
+            </div>
+            <div class="history-stats">
+              <span class="history-stat">Avg: <span data-role="avg-duration">5.6s</span></span>
+              <span class="history-stat">Current: <span data-role="current-duration">5.1s</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="details-body" data-details-body>
       <div class="detail-section">
         <div class="detail-label"><span class="icon">⏱</span> Step Timings</div>
         <div class="steps-container">
@@ -7705,9 +8200,9 @@
             <div class="step-row ">
               <span class="step-title" title="Create page">Create page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 1.2%"></div>
+                <div class="step-bar" style="width: 1.1%"></div>
               </div>
-              <span class="step-duration">49ms</span>
+              <span class="step-duration">39ms</span>
               
             </div>
           
@@ -7716,7 +8211,7 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">4.0s</span>
+              <span class="step-duration">3.4s</span>
               <span class="slowest-badge">Slowest</span>
             </div>
           
@@ -7725,16 +8220,16 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 100.0%"></div>
               </div>
-              <span class="step-duration">4.0s</span>
+              <span class="step-duration">3.4s</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User See Login Page">Then [Desktop] User See Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 1.5%"></div>
               </div>
-              <span class="step-duration">29ms</span>
+              <span class="step-duration">51ms</span>
               
             </div>
           
@@ -7743,92 +8238,96 @@
               <div class="step-bar-container">
                 <div class="step-bar" style="width: 0.1%"></div>
               </div>
-              <span class="step-duration">3ms</span>
+              <span class="step-duration">4ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;invalid.email&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })">Fill &quot;invalid.email&quot; getByRole(&#039;textbox&#039;, { name: &#039;Username&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.0%"></div>
+                <div class="step-bar" style="width: 0.1%"></div>
               </div>
-              <span class="step-duration">2ms</span>
+              <span class="step-duration">3ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Input &quot;REGISTERED_PASSWORD&quot; in Password Field">And [Desktop] User Input &quot;REGISTERED_PASSWORD&quot; in Password Field</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 1.0%"></div>
               </div>
-              <span class="step-duration">27ms</span>
+              <span class="step-duration">34ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Fill &quot;Admin123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })">Fill &quot;Admin123&quot; getByRole(&#039;textbox&#039;, { name: &#039;Password&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.7%"></div>
+                <div class="step-bar" style="width: 1.0%"></div>
               </div>
-              <span class="step-duration">27ms</span>
+              <span class="step-duration">34ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session">And [Desktop] User Choose &quot;Inpatient Ward&quot; for this session</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.4%"></div>
+                <div class="step-bar" style="width: 0.8%"></div>
               </div>
-              <span class="step-duration">15ms</span>
+              <span class="step-duration">27ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByText(&#039;Inpatient Ward&#039;)">Click getByText(&#039;Inpatient Ward&#039;)</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 0.4%"></div>
+                <div class="step-bar" style="width: 0.8%"></div>
               </div>
-              <span class="step-duration">15ms</span>
+              <span class="step-duration">27ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="And [Desktop] User Click Login Button">And [Desktop] User Click Login Button</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 14.6%"></div>
+                <div class="step-bar" style="width: 19.6%"></div>
               </div>
-              <span class="step-duration">586ms</span>
+              <span class="step-duration">669ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })">Click getByRole(&#039;button&#039;, { name: &#039;Log In&#039; })</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 14.5%"></div>
+                <div class="step-bar" style="width: 19.6%"></div>
               </div>
-              <span class="step-duration">585ms</span>
+              <span class="step-duration">668ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page">Then [Desktop] User Failed Login to openRMS and See Validation Credentials &quot;INVALID_CREDENTIALS&quot; at Login Page</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 19.8%"></div>
+                <div class="step-bar" style="width: 23.4%"></div>
               </div>
-              <span class="step-duration">798ms</span>
+              <span class="step-duration">797ms</span>
               
             </div>
           
             <div class="step-row ">
               <span class="step-title" title="Close context">Close context</span>
               <div class="step-bar-container">
-                <div class="step-bar" style="width: 1.0%"></div>
+                <div class="step-bar" style="width: 1.3%"></div>
               </div>
-              <span class="step-duration">39ms</span>
+              <span class="step-duration">45ms</span>
               
             </div>
           
         </div>
+      </div>
+    
+      <div class="duration-compare">
+        Average: 5.6s → Current: 5.1s
       </div>
     </div></div>
     </div>
@@ -7856,8 +8355,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   </script>
 
   <script>
-    const tests = [{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD","title":"[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":5446,"retry":0,"steps":[{"title":"Launch browser","duration":1052,"category":"pw:api"},{"title":"Create context","duration":3,"category":"pw:api"},{"title":"Create page","duration":218,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":4047,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":4046,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":64,"category":"test.step"},{"title":"When [Desktop] User Input \"UNREGISTERED_EMAIL\" in Email Field","duration":13,"category":"test.step"},{"title":"Fill \"unregistered@example.com\" getByRole('textbox', { name: 'Username' })","duration":12,"category":"pw:api"},{"title":"And [Desktop] User Input \"REGISTERED_PASSWORD\" in Password Field","duration":31,"category":"test.step"},{"title":"Fill \"Admin123\" getByRole('textbox', { name: 'Password' })","duration":31,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":30,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":30,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":644,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":644,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":295,"category":"test.step"},{"title":"Close context","duration":37,"category":"pw:api"}],"history":[],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessIndicator":"⚪ New","performanceTrend":"→ Baseline","retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":100,"flakiness":100,"performance":100,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}},{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID","title":"[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":10190,"retry":0,"steps":[{"title":"Create context","duration":1,"category":"pw:api"},{"title":"Create page","duration":47,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":6826,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":6825,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":24,"category":"test.step"},{"title":"When [Desktop] User Input \"REGISTERED_EMAIL\" in Email Field","duration":3,"category":"test.step"},{"title":"Fill \"admin\" getByRole('textbox', { name: 'Username' })","duration":3,"category":"pw:api"},{"title":"And [Desktop] User Input \"PASSWORD_INVALID\" in Password Field","duration":31,"category":"test.step"},{"title":"Fill \"InvalidPassword123\" getByRole('textbox', { name: 'Password' })","duration":31,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":21,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":21,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":883,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":883,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":798,"category":"test.step"},{"title":"Close context","duration":28,"category":"pw:api"}],"history":[],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessIndicator":"⚪ New","performanceTrend":"→ Baseline","retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":100,"flakiness":100,"performance":100,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}},{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD","title":"[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":5627,"retry":0,"steps":[{"title":"Create context","duration":1,"category":"pw:api"},{"title":"Create page","duration":49,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":4027,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":4026,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":29,"category":"test.step"},{"title":"When [Desktop] User Input \"INVALID_FORMAT_EMAIL\" in Email Field","duration":3,"category":"test.step"},{"title":"Fill \"invalid.email\" getByRole('textbox', { name: 'Username' })","duration":2,"category":"pw:api"},{"title":"And [Desktop] User Input \"REGISTERED_PASSWORD\" in Password Field","duration":27,"category":"test.step"},{"title":"Fill \"Admin123\" getByRole('textbox', { name: 'Password' })","duration":27,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":15,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":15,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":586,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":585,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":798,"category":"test.step"},{"title":"Close context","duration":39,"category":"pw:api"}],"history":[],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessIndicator":"⚪ New","performanceTrend":"→ Baseline","retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":100,"flakiness":100,"performance":100,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}}];
-    const stats = {"passed":3,"failed":0,"skipped":0,"flaky":0,"slow":0,"newTests":3,"total":3,"passRate":100,"gradeA":3,"gradeB":0,"gradeC":0,"gradeD":0,"gradeF":0,"totalDuration":22673};
+    const tests = [{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD","title":"[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":5320,"retry":0,"steps":[{"title":"Launch browser","duration":890,"category":"pw:api"},{"title":"Create context","duration":3,"category":"pw:api"},{"title":"Create page","duration":221,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":3377,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":3377,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":78,"category":"test.step"},{"title":"When [Desktop] User Input \"UNREGISTERED_EMAIL\" in Email Field","duration":9,"category":"test.step"},{"title":"Fill \"unregistered@example.com\" getByRole('textbox', { name: 'Username' })","duration":8,"category":"pw:api"},{"title":"And [Desktop] User Input \"REGISTERED_PASSWORD\" in Password Field","duration":33,"category":"test.step"},{"title":"Fill \"Admin123\" getByRole('textbox', { name: 'Password' })","duration":31,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":27,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":26,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":655,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":655,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":812,"category":"test.step"},{"title":"Close context","duration":35,"category":"pw:api"}],"history":[{"passed":true,"duration":5446,"timestamp":"2026-02-04T04:38:26.762Z","skipped":false,"retry":0}],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessScore":0,"flakinessIndicator":"🟢 Stable","averageDuration":5446,"performanceTrend":"→ Stable","performanceMetrics":{"averageDuration":5446,"currentDuration":5320,"percentChange":-2.3,"absoluteChange":-126,"threshold":0.2,"isRegression":false,"isImprovement":false,"severity":"low"},"retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":97,"flakiness":100,"performance":90,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}},{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID","title":"[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":4681,"retry":0,"steps":[{"title":"Create context","duration":4,"category":"pw:api"},{"title":"Create page","duration":51,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":3502,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":3501,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":52,"category":"test.step"},{"title":"When [Desktop] User Input \"REGISTERED_EMAIL\" in Email Field","duration":12,"category":"test.step"},{"title":"Fill \"admin\" getByRole('textbox', { name: 'Username' })","duration":10,"category":"pw:api"},{"title":"And [Desktop] User Input \"PASSWORD_INVALID\" in Password Field","duration":47,"category":"test.step"},{"title":"Fill \"InvalidPassword123\" getByRole('textbox', { name: 'Password' })","duration":46,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":27,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":25,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":611,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":610,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":301,"category":"test.step"},{"title":"Close context","duration":32,"category":"pw:api"}],"history":[{"passed":true,"duration":10190,"timestamp":"2026-02-04T04:38:26.762Z","skipped":false,"retry":0}],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessScore":0,"flakinessIndicator":"🟢 Stable","averageDuration":10190,"performanceTrend":"↓ 54% faster","performanceMetrics":{"averageDuration":10190,"currentDuration":4681,"percentChange":-54.1,"absoluteChange":-5509,"threshold":0.2,"isRegression":false,"isImprovement":true,"severity":"high"},"retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":100,"flakiness":100,"performance":100,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}},{"testId":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD","title":"[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD","file":".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","status":"passed","duration":5134,"retry":0,"steps":[{"title":"Create context","duration":1,"category":"pw:api"},{"title":"Create page","duration":39,"category":"pw:api"},{"title":"Given [Desktop] User Open Browser and Navigate to Login Page","duration":3407,"category":"test.step","isSlowest":true},{"title":"Navigate to \"/\"","duration":3406,"category":"pw:api"},{"title":"Then [Desktop] User See Login Page","duration":51,"category":"test.step"},{"title":"When [Desktop] User Input \"INVALID_FORMAT_EMAIL\" in Email Field","duration":4,"category":"test.step"},{"title":"Fill \"invalid.email\" getByRole('textbox', { name: 'Username' })","duration":3,"category":"pw:api"},{"title":"And [Desktop] User Input \"REGISTERED_PASSWORD\" in Password Field","duration":34,"category":"test.step"},{"title":"Fill \"Admin123\" getByRole('textbox', { name: 'Password' })","duration":34,"category":"pw:api"},{"title":"And [Desktop] User Choose \"Inpatient Ward\" for this session","duration":27,"category":"test.step"},{"title":"Click getByText('Inpatient Ward')","duration":27,"category":"pw:api"},{"title":"And [Desktop] User Click Login Button","duration":669,"category":"test.step"},{"title":"Click getByRole('button', { name: 'Log In' })","duration":668,"category":"pw:api"},{"title":"Then [Desktop] User Failed Login to openRMS and See Validation Credentials \"INVALID_CREDENTIALS\" at Login Page","duration":797,"category":"test.step"},{"title":"Close context","duration":45,"category":"pw:api"}],"history":[{"passed":true,"duration":5627,"timestamp":"2026-02-04T04:38:26.762Z","skipped":false,"retry":0}],"tags":["@web","@login-web","@login","@regression","@login-web02","@login-failed"],"suite":"[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e","suites":[".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js","Login page openRMS on Desktop Website","[Desktop] User Failed Login to openRMS with \u003cEMAIL\u003e and \u003cPASSWORD\u003e"],"browser":"chromium","project":"Desktop Chrome","outcome":"expected","expectedStatus":"passed","flakinessScore":0,"flakinessIndicator":"🟢 Stable","averageDuration":5627,"performanceTrend":"→ Stable","performanceMetrics":{"averageDuration":5627,"currentDuration":5134,"percentChange":-8.8,"absoluteChange":-493,"threshold":0.2,"isRegression":false,"isImprovement":false,"severity":"low"},"retryInfo":{"totalRetries":0,"passedOnRetry":-1,"failedRetries":0,"retryPattern":[true],"needsAttention":false},"stabilityScore":{"overall":97,"flakiness":100,"performance":90,"reliability":100,"grade":"A","needsAttention":false},"attachments":{"screenshots":[],"videos":[],"traces":[],"custom":[]}}];
+    const stats = {"passed":3,"failed":0,"skipped":0,"flaky":0,"slow":0,"newTests":0,"total":3,"passRate":100,"gradeA":3,"gradeB":0,"gradeC":0,"gradeD":0,"gradeF":0,"totalDuration":16390};
     const traceViewerEnabled = true;
     const historyDrilldownEnabled = false;
     const historyRunSnapshots = {};
@@ -9244,7 +9743,22 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     });
   
 
+    // Comparison functions
 
+    function toggleComparisonSection(sectionId) {
+      const section = document.getElementById('section-' + sectionId);
+      const header = section.previousElementSibling;
+      const icon = header.querySelector('.expand-icon');
+
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = '▼';
+      } else {
+        section.style.display = 'none';
+        icon.textContent = '▶';
+      }
+    }
+  
 
     // Chart bar tooltips
     (function initChartTooltips() {

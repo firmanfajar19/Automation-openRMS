@@ -8,6 +8,13 @@
         "timestamp": "2026-02-04T04:38:26.762Z",
         "skipped": false,
         "retry": 0
+      },
+      {
+        "passed": true,
+        "duration": 5320,
+        "timestamp": "2026-02-04T04:42:44.863Z",
+        "skipped": false,
+        "retry": 0
       }
     ],
     ".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID": [
@@ -17,6 +24,13 @@
         "timestamp": "2026-02-04T04:38:26.762Z",
         "skipped": false,
         "retry": 0
+      },
+      {
+        "passed": true,
+        "duration": 4681,
+        "timestamp": "2026-02-04T04:42:44.863Z",
+        "skipped": false,
+        "retry": 0
       }
     ],
     ".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD": [
@@ -24,6 +38,13 @@
         "passed": true,
         "duration": 5627,
         "timestamp": "2026-02-04T04:38:26.762Z",
+        "skipped": false,
+        "retry": 0
+      },
+      {
+        "passed": true,
+        "duration": 5134,
+        "timestamp": "2026-02-04T04:42:44.863Z",
         "skipped": false,
         "retry": 0
       }
@@ -41,6 +62,19 @@
       "slow": 0,
       "duration": 22693,
       "passRate": 100
+    },
+    {
+      "runId": "run-1770180148451",
+      "timestamp": "2026-02-04T04:42:28.451Z",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "slow": 0,
+      "duration": 16412,
+      "passRate": 100
     }
-  ]
+  ],
+  "runFiles": {}
 }
