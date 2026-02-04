@@ -1,0 +1,46 @@
+{
+  "runs": [],
+  "tests": {
+    ".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with UNREGISTERED_EMAIL and REGISTERED_PASSWORD": [
+      {
+        "passed": true,
+        "duration": 5446,
+        "timestamp": "2026-02-04T04:38:26.762Z",
+        "skipped": false,
+        "retry": 0
+      }
+    ],
+    ".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with REGISTERED_EMAIL and PASSWORD_INVALID": [
+      {
+        "passed": true,
+        "duration": 10190,
+        "timestamp": "2026-02-04T04:38:26.762Z",
+        "skipped": false,
+        "retry": 0
+      }
+    ],
+    ".features-gen/web_chrome/tests/web/features/01_login.feature.spec.js::[Desktop] User Failed Login to openRMS with INVALID_FORMAT_EMAIL and REGISTERED_PASSWORD": [
+      {
+        "passed": true,
+        "duration": 5627,
+        "timestamp": "2026-02-04T04:38:26.762Z",
+        "skipped": false,
+        "retry": 0
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "runId": "run-1770179884069",
+      "timestamp": "2026-02-04T04:38:04.069Z",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "slow": 0,
+      "duration": 22693,
+      "passRate": 100
+    }
+  ]
+}
