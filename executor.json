@@ -1,0 +1,12 @@
+{
+  "reportName": "automation-${{ github.ref_name }}-${{ github.run_number }}",
+  "buildOrder": "${{ github.run_number }}",
+  "reportUrl": "https://firmanfajar19.github.io/Automation-openRMS/",
+  "name": "GitHub Pages",
+  "type": "github",
+  "buildName": "${{ github.workflow }} #${{ github.run_number }}",
+  "buildUrl": "https://github.com/firmanfajar19/Automation-openRMS/actions/runs/${{ github.run_id }}",
+  "branch": "${{ github.ref_name }}",
+  "commit": "${{ github.sha }}",
+  "executor": "github-actions"
+}
