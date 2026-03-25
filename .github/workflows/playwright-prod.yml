@@ -67,13 +67,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: reports/allure-results/history
-          key: allure-history-${{ github.ref }}
+          key: allure-history-${{ github.ref_name }}
           restore-keys: |
             allure-history-
 
       - name: Ensure report directories exist
         run: |
           mkdir -p reports/allure-results
+          mkdir -p reports/allure-results/history
 
       - name: Run changed tests (Pull Request)
         if: github.event_name == 'pull_request'
@@ -92,13 +93,23 @@ jobs:
         run: npm run allure
         continue-on-error: true
 
+      - name: Update Allure history for next run
+        if: always()
+        run: |
+          if [ -d reports/allure-report/history ]; then
+            rm -rf reports/allure-results/history
+            mkdir -p reports/allure-results/history
+            cp -R reports/allure-report/history/* reports/allure-results/history/ || true
+          fi
+        continue-on-error: true
+
       - name: Save Allure history (trend)
         uses: actions/cache/save@v4
         if: always()
         continue-on-error: true
         with:
           path: reports/allure-results/history
-          key: allure-history-${{ github.ref }}-${{ github.run_id }}
+          key: allure-history-${{ github.ref_name }}-${{ github.run_id }}
 
       - uses: actions/upload-artifact@v4
         if: always()
