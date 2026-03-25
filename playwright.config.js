@@ -26,10 +26,6 @@ export default defineConfig({
       },
     ],
     ['list'],
-    ['playwright-smart-reporter', {
-      outputFile: 'smart-report.html',
-      historyFile: 'test-history.json',
-    }],
   ],
   use: {
     baseURL: process.env.BASE_URL,

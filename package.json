@@ -14,9 +14,9 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.2",
+    "allure-commandline": "^2.38.1",
     "allure-playwright": "^3.4.3",
     "dotenv": "^17.2.3",
-    "playwright-bdd": "^8.4.2",
-    "playwright-smart-reporter": "^1.0.7"
+    "playwright-bdd": "^8.4.2"
   }
 }

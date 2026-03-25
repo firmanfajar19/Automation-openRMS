@@ -23,11 +23,14 @@ jobs:
 
     env:
       ENV: ${{ secrets.PROD_ENV }}
+      PROD_ENV: ${{ secrets.PROD_ENV }}
 
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -60,13 +63,17 @@ jobs:
       - name: Verify env loaded
         run: cat .env | sed 's/=.*/=***/'
 
-      - name: Restore test history
+      - name: Restore Allure history (trend)
         uses: actions/cache@v4
         with:
-          path: test-history.json
-          key: test-history-${{ github.ref }}
+          path: reports/allure-results/history
+          key: allure-history-${{ github.ref }}
           restore-keys: |
-            test-history-
+            allure-history-
+
+      - name: Ensure report directories exist
+        run: |
+          mkdir -p reports/allure-results
 
       - name: Run changed tests (Pull Request)
         if: github.event_name == 'pull_request'
@@ -80,29 +87,35 @@ jobs:
         run: npm run test
         continue-on-error: true
 
-      - name: Save test history
+      - name: Generate Allure HTML report
+        if: always()
+        run: npm run allure
+        continue-on-error: true
+
+      - name: Save Allure history (trend)
         uses: actions/cache/save@v4
         if: always()
+        continue-on-error: true
         with:
-          path: test-history.json
-          key: test-history-${{ github.ref }}-${{ github.run_id }}
+          path: reports/allure-results/history
+          key: allure-history-${{ github.ref }}-${{ github.run_id }}
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: allure-results
+          path: reports/allure-results/
           retention-days: 30
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: smart-report
-          path: smart-report.html
+          name: allure-report
+          path: reports/allure-report/
           retention-days: 30
 
   deploy-pages:
-    name: Deploy smart-report to GitHub Pages
+    name: Deploy Allure report to GitHub Pages
     needs: test
     if: always() && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -112,21 +125,23 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Download smart-report artifact (if available)
+      - name: Download allure-report artifact (if available)
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: smart-report
-          path: artifacts/smart-report
+          name: allure-report
+          path: artifacts/allure-report
 
       - name: Prepare Pages site
         run: |
           rm -rf site
           mkdir -p site
-          if [ -f artifacts/smart-report/smart-report.html ]; then
-            cp artifacts/smart-report/smart-report.html site/index.html
+          if [ -f artifacts/allure-report/index.html ]; then
+            cp -R artifacts/allure-report/* site/
+          elif [ -d reports/allure-report ]; then
+            cp -R reports/allure-report/* site/
           else
-            cp smart-report.html site/index.html
+            echo "No Allure report found" > site/index.html
           fi
           touch site/.nojekyll
 

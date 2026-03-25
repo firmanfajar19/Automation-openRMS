@@ -80,8 +80,8 @@ npx bddgen && npx playwright test --grep @login-web01 --headed
 ### View Reports
 Generate and open the Allure report:
 ```sh
-allure generate allure-results --clean -o allure-report
-allure open allure-report
+npm run allure
+allure open reports/allure-report
 ```
 *Note: Ensure you have Allure commandline installed or use the `allure-playwright` reporting capabilities.*
 
