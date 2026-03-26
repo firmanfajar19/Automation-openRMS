@@ -71,11 +71,6 @@ jobs:
           restore-keys: |
             allure-history-
 
-      - name: Ensure report directories exist
-        run: |
-          mkdir -p reports/allure-results
-          mkdir -p reports/allure-results/history
-
       - name: Run changed tests (Pull Request)
         if: github.event_name == 'pull_request'
         run: |
@@ -87,6 +82,22 @@ jobs:
         if: github.event_name != 'pull_request'
         run: npm run test
         continue-on-error: true
+
+      - name: Add Executor Info to Allure Results
+        if: always()
+        run: |
+          mkdir -p reports/allure-results
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          cat > reports/allure-results/executor.json <<EOF
+          {
+            "name": "GitHub Actions",
+            "type": "github",
+            "url": "${{ github.server_url }}/${{ github.repository }}",
+            "buildOrder": "${{ github.run_number }}",
+            "buildName": "${{ github.workflow }} #${{ github.run_number }} (${GITHUB_REF_NAME})",
+            "buildUrl": "${RUN_URL}"
+          }
+          EOF
 
       - name: Generate Allure HTML report
         if: always()
