@@ -83,21 +83,11 @@ jobs:
         run: npm run test
         continue-on-error: true
 
-      - name: Add Executor Info to Allure Results
-        if: always()
+      - name: Create Allure Executor Info
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           mkdir -p reports/allure-results
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          cat > reports/allure-results/executor.json <<EOF
-          {
-            "name": "GitHub Actions",
-            "type": "github",
-            "url": "${{ github.server_url }}/${{ github.repository }}",
-            "buildOrder": "${{ github.run_number }}",
-            "buildName": "${{ github.workflow }} #${{ github.run_number }} (${GITHUB_REF_NAME})",
-            "buildUrl": "${RUN_URL}"
-          }
-          EOF
+          envsubst < reports/executor.tpl.json > reports/allure-results/executor.tpl.json
 
       - name: Generate Allure HTML report
         if: always()
